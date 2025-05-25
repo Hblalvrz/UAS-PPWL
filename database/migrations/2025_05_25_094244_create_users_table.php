@@ -12,15 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('user_id');
+            $table->unsignedBigInteger('role_id');
             $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('phone');
             $table->string('password');
-            $table->enum('role', ['admin', 'user', 'laundry'])->default('user');
-            $table->rememberToken();
+            $table->text('address');
             $table->timestamps();
+
+            $table->foreign('role_id')->references('role_id')->on('roles')->onDelete('cascade');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

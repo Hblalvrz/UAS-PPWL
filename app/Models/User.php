@@ -10,16 +10,10 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens,Notifiable,HasRoles;
+    use HasApiTokens, Notifiable, HasRoles, HasFactory;
 
-
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'phone',
-        'role'
-    ];
+    protected $primaryKey = 'user_id';
+    protected $fillable = ['role_id', 'name', 'phone', 'password', 'address'];
 
     protected $hidden = [
         'password',
@@ -30,21 +24,19 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    // Relasi ke laundry yang dimiliki (jika user adalah pemilik laundry)
-    public function laundries()
+
+    public function role()
     {
-        return $this->hasMany(Laundry::class);
+        return $this->belongsTo(Role::class, 'role_id', 'role_id');
     }
 
-    // Relasi ke laundry yang dikelola (jika user adalah pihak laundry)
-    public function managedLaundries()
-    {
-        return $this->belongsToMany(Laundry::class, 'laundry_managers');
-    }
-
-    // Relasi ke order yang dibuat oleh user
     public function orders()
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(Order::class, 'user_id', 'user_id');
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'user_id', 'user_id');
     }
 }
