@@ -8,16 +8,15 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('laundry_managers', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('laundry_id')->constrained();
+        Schema::create('roles', function (Blueprint $table) {
+            $table->bigIncrements('role_id');
+            $table->enum('role_name', ['customer', 'laundry_providers']);
             $table->timestamps();
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('laundry_managers');
+        Schema::dropIfExists('roles');
     }
 };

@@ -2,35 +2,42 @@
 
 namespace App\Models;
 
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
-use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    use HasApiTokens,Notifiable,HasRoles;
+    use HasFactory;
 
+    protected $primaryKey = 'order_id';
     protected $fillable = [
         'user_id',
-        'laundry_id',
-        'weight',
-        'total_price',
-        'pickup_address',
-        'delivery_address',
+        'laundryProvider',
+        'laundryService',
+        'order_date',
+        'pickup_date',
         'status',
-        'payment_proof'
+        'quantity',
+        'total_price'
     ];
 
-    // Relasi ke user
+    protected $casts = [
+        'order_date' => 'datetime',
+        'pickup_date' => 'datetime',
+    ];
+
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'user_id');
     }
 
-    // Relasi ke laundry
-    public function laundry()
+    public function provider()
     {
-        return $this->belongsTo(Laundry::class);
+        return $this->belongsTo(LaundryProvider::class, 'laundryProvider', 'laundryProvider');
+    }
+
+    public function service()
+    {
+        return $this->belongsTo(LaundryService::class, 'laundryService', 'laundryService');
     }
 }
