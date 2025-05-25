@@ -12,7 +12,6 @@ class UserController extends Controller
         // Ambil semua user
         $users = User::all();
 
-        // Kirim ke komponen React bernama 'Users/Index'
         return Inertia::render('Users/Index', [
             'users' => $users
         ]);
