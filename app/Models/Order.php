@@ -14,7 +14,6 @@ class Order extends Model
         'user_id',
         'laundryProvider',
         'laundryService',
-        'order_date',
         'pickup_date',
         'status',
         'quantity',
