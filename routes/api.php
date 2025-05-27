@@ -15,10 +15,24 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::apiResource('users', UserController::class);
-});
+    Route::prefix('laundry-providers')->middleware(['role:laundry_providers'])->group(function () {
+        Route::apiResource('/', LaundryProviderController::class)->except(['index', 'show']);
+    });
+    Route::prefix('laundry-services')->middleware(['role:laundry_providers'])->group(function () {
+        Route::apiResource('/', LaundryServiceController::class)->except(['index', 'show']);
+    });
 
-Route::apiResource('laundry-providers', LaundryProviderController::class);
-Route::apiResource('laundry-services', LaundryServiceController::class);
-Route::apiResource('orders', OrderController::class);
-Route::apiResource('reviews', ReviewController::class);
+    Route::prefix('orders')->middleware(['role:customer'])->group(function () {
+        Route::apiResource('/', OrderController::class)->except(['index', 'show']);
+    });
+
+    Route::prefix('reviews')->middleware(['role:customer'])->group(function () {
+        Route::apiResource('/', ReviewController::class)->except(['index', 'show']);
+    });
+
+    Route::middleware(['permission:edit-orders'])->group(function () {
+        Route::get('/orders', [OrderController::class, 'index']);
+        Route::get('/orders/{id}', [OrderController::class, 'show']);
+        Route::put('/orders/{id}', [OrderController::class, 'update']);
+    });
+});
