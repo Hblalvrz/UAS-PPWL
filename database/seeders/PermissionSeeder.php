@@ -2,34 +2,34 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
-class RoleSeeder extends Seeder
+class PermissionSeeder extends Seeder
 {
+    /**
+     * Run the database seeds.
+     */
     public function run(): void
     {
-        $customer = Role::create(['name' => 'customer', 'guard_name' => 'web']);
-        $laundry =  Role::create(['name' => 'laundry_providers', 'guard_name' => 'web']);
-
-        $customer->givePermissionTo([
+        $permissions = [
             'create-order',
             'edit-order',
             'delete-order',
             'create-review',
             'edit-review',
-            'delete-review'
-        ]);
-
-        $laundry->givePermissionTo([
+            'delete-review',
             'create-provider',
             'edit-provider',
             'delete-provider',
             'create-service',
             'edit-service',
-            'delete-service',
-            'edit-order'
-        ]);
+            'delete-service'
+        ];
+        // Looping and Inserting Array's Permissions into Permission
+        foreach ($permissions as $permission) {
+            Permission::create(['name' => $permission]);
+        }
     }
 }

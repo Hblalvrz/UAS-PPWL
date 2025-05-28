@@ -10,10 +10,15 @@ class Review extends Model
     use HasFactory;
 
     protected $primaryKey = 'review_id';
-    protected $fillable = ['user_id', 'status', 'contents'];
+    protected $fillable = ['user_id', 'status','laundryProviders', 'contents'];
 
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'user_id');
+    }
+
+    public function provider()
+    {
+        return $this->belongsTo(LaundryProvider::class, 'laundryProviders', 'laundryProvider');
     }
 }
