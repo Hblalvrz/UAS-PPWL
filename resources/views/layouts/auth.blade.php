@@ -18,15 +18,13 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="bg-white min-h-screen flex flex-col">
-    <div class="flex h-screen">
-        @include('components.sidebar')
-        <main class="flex-1 p-4 sm:ml-64">
-            <div class="p-4 mt-14">
-                @yield('content')
-            </div>
-        </main>
-    </div>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+    <main class="h-screen">
+        <div>
+            @yield('content')
+        </div>
+    </main>
 
 </body>
 
