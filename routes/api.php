@@ -33,8 +33,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/orders/{id}', [OrderController::class, 'show']);
         Route::put('/orders/{id}/status', [OrderController::class, 'updateStatus']);
     });
-
-
     Route::get('/laundry-providers', [LaundryProviderController::class, 'index']);
     Route::get('/laundry-providers/{id}', [LaundryProviderController::class, 'show']);
     Route::get('/laundry-services', [LaundryServiceController::class, 'index']);

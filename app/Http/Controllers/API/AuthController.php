@@ -44,7 +44,7 @@ class AuthController extends Controller
         if ($user){
             return redirect()->route('dashboard.index')->with('success', 'Registrasi berhasil! Silakan login.');
         } else {
-            return back()->woth('error', 'Registrasi gagal, silahkan coba lagi');
+            return back()->with('error', 'Registrasi gagal, silahkan coba lagi');
         }
     }
 
@@ -72,11 +72,12 @@ class AuthController extends Controller
     return redirect()->intended('/dashboard/index');
 }
 
-
     // Logout (API)
     public function logout(Request $request)
-    {
-        $request->user()->currentAccessToken()->delete();
-        return response()->json(['message' => 'Logged out successfully']);
-    }
+{
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+    return redirect()->route('login');
+}
 }

@@ -12,7 +12,7 @@ class OrderController extends Controller
     public function index()
     {
         $orders = Order::with(['user', 'provider', 'service'])->get();
-        return response()->json($orders);
+        return view('orders.index', compact('orders'));
     }
 
     // Menyimpan order baru
