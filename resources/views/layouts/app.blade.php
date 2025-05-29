@@ -19,11 +19,8 @@
 </head>
 
 <body class="bg-gray-100 min-h-screen flex flex-col">
-    @auth
-        @include('layouts.navbar')
-    @endauth
 
-    <main class="flex flex-grow justify-center items-center max-h-screen">
+    <main class="h-screen">
         @yield('content')
     </main>
 
