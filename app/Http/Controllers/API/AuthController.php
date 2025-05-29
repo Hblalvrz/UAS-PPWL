@@ -21,24 +21,31 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:users,name',
             'password' => 'required|string|min:8|confirmed',
             'phone' => 'required|string|max:15',
             'address' => 'required|string',
             'user_type' => 'required|in:customer,laundry_providers'
+        ],
+        [
+        'name.unique' => 'Username telah digunakan, silahkan pilih username lain.',
+        'password' => 'Password harus memiliki minimal atau lebih dari 8 karakter.',
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'password' => Hash::make($request->password),
             'phone' => $request->phone,
-            'address' => $request->address,
+            'address'=> $request->address,
         ]);
 
         // Assign role sesuai pilihan user
         $user->assignRole($request->user_type);
-
-        return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan login.');
+        if ($user){
+            return redirect()->route('dashboard.index')->with('success', 'Registrasi berhasil! Silakan login.');
+        } else {
+            return back()->woth('error', 'Registrasi gagal, silahkan coba lagi');
+        }
     }
 
     // Tampilkan form login
@@ -49,27 +56,22 @@ class AuthController extends Controller
 
     // Proses login (API)
     public function login(Request $request)
-    {
-        $credentials = $request->validate([
-            'phone' => 'required',
-            'password' => 'required'
-        ]);
+{
+    $credentials = $request->validate([
+        'name' => 'required', // atau 'username' jika pakai username
+        'password' => 'required'
+    ]);
 
-        if (!Auth::attempt($credentials)) {
-            return response()->json(['message' => 'Invalid credentials'], 401);
-        }
-
-        $user = User::where('phone', $request->phone)->first();
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'Bearer',
-            'user' => $user,
-            'roles' => $user->getRoleNames(),
-            'permissions' => $user->getAllPermissions()->pluck('name')
-        ]);
+    if (!Auth::attempt($credentials)) {
+        return back()->withErrors(['name' => 'Username atau password salah.']);
     }
+
+    $request->session()->regenerate();
+
+    // Redirect ke dashboard setelah login sukses
+    return redirect()->intended('/dashboard/index');
+}
+
 
     // Logout (API)
     public function logout(Request $request)
