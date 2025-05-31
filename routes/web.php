@@ -22,6 +22,10 @@ Route::get('/customer/dashboard', function () {
     return view('customer.dashboard.index');
 })->middleware('auth')->name('customer.dashboard.index');
 
+Route::get('/provider', function () {
+    return view('customer.dashboard.cari');
+})->middleware('auth')->name('provider.index');
+
 Route::get('/services', [LaundryServiceController::class, 'index'])->name('services.index');
 Route::resource('orders', OrderController::class);
 
