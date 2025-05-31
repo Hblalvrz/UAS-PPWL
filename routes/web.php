@@ -10,6 +10,7 @@ use App\Http\Controllers\API\UserController;
 use App\Models\LaundryService;
 
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/', [AuthController::class, 'login']);
 
 Route::get('/laundry/dashboard', function () {
     return view('laundry.dashboard.index');
@@ -40,5 +41,5 @@ Route::resource('orders', OrderController::class);
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 
-Route::post('/login', [AuthController::class, 'login']);
+
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
