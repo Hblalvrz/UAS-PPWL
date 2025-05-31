@@ -26,9 +26,9 @@ Route::get('/provider', function () {
     return view('customer.cari.cari');
 })->middleware('auth')->name('provider.index');
 
-Route::get('/order-provider', function () {
-    return view('customer.cari.order');
-})->middleware('auth')->name('customer.order');
+Route::get('/customer/order/{provider}', [OrderController::class, 'create'])->name('customer.order');
+
+Route::post('/customer/order', [OrderController::class, 'storecustomer'])->name('customer.order.store');
 
 Route::get('/riwayat-customer', function () {
     return view('customer.riwayat.riwayat');

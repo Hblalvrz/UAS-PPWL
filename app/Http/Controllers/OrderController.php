@@ -16,13 +16,38 @@ class OrderController extends Controller
         return view('orders.index', compact('orders'));
     }
 
-    public function create()
+    public function create($providerId)
     {
-        $users = User::all();
-        $providers = LaundryProvider::all();
-        $services = LaundryService::all();
-        return view('orders.create', compact('users', 'providers', 'services'));
+        $provider = LaundryProvider::findOrFail($providerId);
+        $services = LaundryService::where('laundryProviders', $providerId)->get();
+        return view('customer.cari.order', compact('provider', 'services'));
     }
+    public function storecustomer(Request $request)
+    {
+        $request->validate([
+            'laundryProvider' => 'required|exists:laundry_providers,laundryProvider',
+            'laundryService' => 'required|exists:laundry_services,laundryService',
+            'quantity' => 'required|integer|min:1',
+        ]);
+
+        // Hitung total_price (opsional, bisa dihitung di Blade atau di sini)
+        $service = LaundryService::find($request->laundryService);
+        $total_price = $service->price_per_kg * $request->quantity;
+
+        // Simpan ke database
+        Order::create([
+            'user_id' => auth()->id(),
+            'laundryProvider' => $request->laundryProvider,
+            'laundryService' => $request->laundryService,
+            'quantity' => $request->quantity,
+            'total_price' => $total_price,
+            'pickup_date' => null,
+
+        ]);
+
+        return redirect()->route('customer.dashboard.index')->with('success', 'Order berhasil dibuat!');
+    }
+
 
     public function store(Request $request)
     {
@@ -30,11 +55,13 @@ class OrderController extends Controller
             'user_id'           => 'required|exists:users,user_id',
             'laundryProvider'   => 'required|exists:laundry_providers,laundryProvider',
             'laundryService'    => 'required|exists:laundry_services,laundryService',
-            'pickup_date'       => 'required|date',
-            'status'            => 'required|in:process,done',
+            'pickup_date'       => 'date',
+            'status'            => 'in:process,done',
             'quantity'          => 'required|integer|min:1',
             'total_price'       => 'required|numeric|min:0'
         ]);
+
+        $service = LaundryService::find($request->laundryService);
         Order::create($request->all());
         return redirect()->route('orders.index')->with('success', 'Order berhasil ditambahkan!');
     }
