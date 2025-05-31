@@ -23,11 +23,11 @@ Route::get('/customer/dashboard', function () {
 })->middleware('auth')->name('customer.dashboard.index');
 
 Route::get('/provider', function () {
-    return view('customer.dashboard.cari');
+    return view('customer.cari.cari');
 })->middleware('auth')->name('provider.index');
 
 Route::get('/order-provider', function () {
-    return view('customer.dashboard.order');
+    return view('customer.cari.order');
 })->middleware('auth')->name('customer.order');
 
 Route::get('/provider/list', [LaundryProviderController::class, 'index'])->name('provider.list');
