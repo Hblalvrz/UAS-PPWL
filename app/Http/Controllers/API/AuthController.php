@@ -38,15 +38,14 @@ class AuthController extends Controller
             'name' => $request->name,
             'password' => Hash::make($request->password),
             'phone' => $request->phone,
-            'address'=> $request->address,
+            'address' => $request->address,
         ]);
 
         // Assign role sesuai pilihan user
         $user->assignRole($request->user_type);
 
         if ($user) {
-            return redirect()->view('login.auth.login')->with('success', 'Registrasi berhasil! Silakan login.');
-
+            return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan login.');
         } else {
             return back()->with('error', 'Registrasi gagal, silahkan coba lagi');
         }

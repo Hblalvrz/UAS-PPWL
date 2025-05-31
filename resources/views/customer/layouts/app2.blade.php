@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <title>
-        Cari Laundry
+        Clean Waves
     </title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
@@ -17,16 +17,16 @@
 </head>
 
 <body class="bg-[#F8FAFF] font-sans text-[#2B3A55]">
-    <header class="flex items-center justify-between px-6 py-4 max-w-7xl mx-auto">
+    <header class="flex items-center justify-between px-10 py-8 max-w-7xl mx-auto">
         <div class="flex items-center space-x-2">
-            <img alt="Laundry service logo, dark blue background with white icon" class="w-10 h-7 object-contain"
-                height="30" src="/logo.png" width="40" />
+            <img alt="Laundry service logo, dark blue background with white icon" class="w-35 h-17 object-contain"
+                height="100" src="/logo.png" width="60" />
         </div>
         <nav class="flex space-x-6 text-sm font-normal text-[#9CA3AF]">
-            <a class="font-semibold text-[#2B3A55]" href="#">
+            <a class="font-semibold text-[#2B3A55]" href="{{ route('customer.dashboard.index') }}">
                 Beranda
             </a>
-            <a href="#">
+            <a href="{{ route('provider.index') }}">
                 Cari Laundry
             </a>
             <a href="#">

@@ -31,7 +31,7 @@
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
             <div class="border border-[#2B3A55] border-opacity-20 rounded-md bg-white p-4 flex flex-col items-center">
                 <img alt="Illustration of a delivery person riding a motorbike with laundry bags and a location pin"
-                    class="mb-3" height="80"
+                    class="mb-6" height="80"
                     src="https://storage.googleapis.com/a1aa/image/2a6f036e-2b23-42a8-31af-deb422bfb9ae.jpg"
                     width="80" />
                 <p class="text-xs font-semibold text-center">

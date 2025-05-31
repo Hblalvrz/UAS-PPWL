@@ -11,7 +11,7 @@ use App\Models\LaundryService;
 
 Route::get('/', function () {
 
-    return view('login.auth.login');
+    return view('login.auth.login')->name('login');
 });
 
 Route::get('/laundry/dashboard', function () {
@@ -21,6 +21,10 @@ Route::get('/laundry/dashboard', function () {
 Route::get('/customer/dashboard', function () {
     return view('customer.dashboard.index');
 })->middleware('auth')->name('customer.dashboard.index');
+
+Route::get('/provider', function () {
+    return view('customer.dashboard.cari');
+})->middleware('auth')->name('provider.index');
 
 Route::get('/services', [LaundryServiceController::class, 'index'])->name('services.index');
 Route::resource('orders', OrderController::class);
