@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Inertia\Inertia;
 
 class AuthController extends Controller
 {
@@ -37,7 +38,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'password' => Hash::make($request->password),
             'phone' => $request->phone,
-            'address' => $request->address,
+            'address'=> $request->address,
         ]);
 
         // Assign role sesuai pilihan user
@@ -45,6 +46,7 @@ class AuthController extends Controller
 
         if ($user) {
             return redirect()->view('login.auth.login')->with('success', 'Registrasi berhasil! Silakan login.');
+
         } else {
             return back()->with('error', 'Registrasi gagal, silahkan coba lagi');
         }
