@@ -1,4 +1,4 @@
-@extends('layouts.auth')
+@extends('login.layouts.auth')
 
 @section('content')
     <div class="flex h-screen overflow-hidden">
@@ -34,8 +34,7 @@
                     <div class="form-group">
                         <label class="block mb-1 font-bold text-[#2D4559]">Alamat</label>
 
-                        <textarea name="address"
-                            class="rounded-lg border border-[#AEBECD] px-4 py-3 text-[#2D4559] placeholder-[#AEBECD]"
+                        <textarea name="address" class="rounded-lg border border-[#AEBECD] px-4 py-3 text-[#2D4559] placeholder-[#AEBECD]"
                             required></textarea>
                     </div>
                     <div class="form-group">
@@ -95,8 +94,8 @@
                             tabindex="-1">
                             {{-- Eye (lihat) --}}
 
-                            <svg id="eyeIconConfirmed" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 block" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <svg id="eyeIconConfirmed" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 block"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
@@ -134,14 +133,14 @@
 
 <script>
     //Button mata password on/off
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
 
         const passwordInput = document.getElementById('password');
         const togglePasswordBtn = document.getElementById('togglePassword');
         const eyeIcon = document.getElementById('eyeIcon');
         const eyeOffIcon = document.getElementById('eyeOffIcon');
 
-        togglePasswordBtn.addEventListener('click', function () {
+        togglePasswordBtn.addEventListener('click', function() {
 
             if (passwordInput.type === 'password') {
                 passwordInput.type = 'text';
@@ -156,13 +155,13 @@
     })
 
     //Button mata ulangi password on/off
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const passwordInputConfirmed = document.getElementById('password_confirmation');
         const togglePasswordBtnConfirmed = document.getElementById('togglePasswordConfirmed');
         const eyeIconConfirmed = document.getElementById('eyeIconConfirmed');
         const eyeOffIconConfirmed = document.getElementById('eyeOffIconConfirmed');
 
-        togglePasswordBtnConfirmed.addEventListener('click', function () {
+        togglePasswordBtnConfirmed.addEventListener('click', function() {
 
             if (passwordInputConfirmed.type === 'password') {
                 passwordInputConfirmed.type = 'text';
@@ -177,7 +176,7 @@
     })
 
     //Button enable ketika form terisi semua
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const form = document.getElementById('registerForm');
         const inputs = form.querySelectorAll('input[required], select[required], textarea[required]');
         const submitBtn = form.querySelector('button[type="submit"]');
@@ -207,5 +206,4 @@
 
         validate(); // cek awal saat page load
     });
-
 </script>
