@@ -2,30 +2,47 @@
 
 @section('content')
 <div class="order-page-container">
-    <!-- Main Content Area -->
     <div class="order-content">
         <div class="order-header">
             <h1 class="order-title">Order Masuk</h1>
         </div>
 
-        <!-- Filter Section -->
-        <div class="order-filters">
-            <div class="search-container">
-                <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85zm-5.242 1.106a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"/>
-                </svg>
-                <input type="text" class="search-input" placeholder="Cari" id="searchInput">
+        <!-- Filter Form -->
+        <form method="GET" action="{{ route('orders.index') }}" id="filterForm">
+            <div class="order-filters">
+                <div class="filter-left">
+                    <div class="search-container">
+                        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85zm-5.242 1.106a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"/>
+                        </svg>
+                        <input type="text" 
+                               class="search-input" 
+                               placeholder="Cari nama atau layanan..." 
+                               name="search" 
+                               value="{{ request('search') }}"
+                               id="searchInput">
+                    </div>
+                    
+                    <div class="filter-container">
+                        <span class="filter-label">Tampilkan</span>
+                        <select class="filter-select" name="status" id="filterSelect">
+                            <option value="semua" {{ request('status') == 'semua' ? 'selected' : '' }}>Semua</option>
+                            <option value="process" {{ request('status') == 'process' ? 'selected' : '' }}>Process</option>
+                            <option value="done" {{ request('status') == 'done' ? 'selected' : '' }}>Selesai</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="filter-right">
+                    <a href="{{ route('orders.create') }}" class="btn-tambah">
+                        <svg class="plus-icon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                        </svg>
+                        Tambah Order
+                    </a>
+                </div>
             </div>
-            
-            <div class="filter-container">
-                <span class="filter-label">Tampilkan</span>
-                <select class="filter-select" id="filterSelect">
-                    <option value="semua">Semua</option>
-                    <option value="pending">Pending</option>
-                    <option value="completed">Selesai</option>
-                </select>
-            </div>
-        </div>
+        </form>
 
         <!-- Table Container -->
         <div class="table-container">
@@ -35,6 +52,7 @@
                         <th class="table-cell header-cell">Nama</th>
                         <th class="table-cell header-cell">Tanggal Order</th>
                         <th class="table-cell header-cell">Layanan yang dipilih</th>
+                        <th class="table-cell header-cell">Status</th>
                         <th class="table-cell header-cell actions-header">Aksi</th>
                     </tr>
                 </thead>
@@ -44,6 +62,11 @@
                             <td class="table-cell name-cell">{{ $order->user->name ?? '-' }}</td>
                             <td class="table-cell date-cell">{{ \Carbon\Carbon::parse($order->pickup_date)->translatedFormat('d F Y') }}</td>
                             <td class="table-cell service-cell">{{ $order->service->name ?? '-' }}</td>
+                            <td class="table-cell status-cell">
+                                <span class="status-badge status-{{ $order->status }}">
+                                    {{ $order->status == 'process' ? 'Proses' : 'Selesai' }}
+                                </span>
+                            </td>
                             <td class="table-cell actions-cell">
                                 <div class="actions-container">
                                     <a href="{{ route('orders.show', $order->order_id) }}" class="btn-detail">Lihat Detail</a>
@@ -65,7 +88,13 @@
                         </tr>
                     @empty
                         <tr class="table-row empty-row">
-                            <td colspan="4" class="table-cell empty-cell">Belum ada order masuk.</td>
+                            <td colspan="5" class="table-cell empty-cell">
+                                @if(request('search') || request('status') != 'semua')
+                                    Tidak ada order yang sesuai dengan filter.
+                                @else
+                                    Belum ada order masuk.
+                                @endif
+                            </td>
                         </tr>
                     @endforelse
                     
@@ -73,6 +102,7 @@
                     @for($i = count($orders); $i < 6; $i++)
                         <tr class="table-row empty-row">
                             <td class="table-cell">&nbsp;</td>
+                            <td class="table-cell"></td>
                             <td class="table-cell"></td>
                             <td class="table-cell"></td>
                             <td class="table-cell"></td>
@@ -85,9 +115,9 @@
 </div>
 
 <style>
-/* Main Container */
+/* Existing styles... */
 .order-page-container {
-    background-color: #f8fafc;
+    background-color: rgb(255, 255, 255);
     min-height: 100vh;
     padding: 24px;
 }
@@ -101,7 +131,6 @@
     margin: 0 auto;
 }
 
-/* Header */
 .order-header {
     margin-bottom: 32px;
 }
@@ -113,18 +142,29 @@
     margin: 0;
 }
 
-/* Filters */
 .order-filters {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.filter-left {
     display: flex;
     align-items: center;
     gap: 24px;
-    margin-bottom: 24px;
-    flex-wrap: wrap;
+    flex: 1;
+}
+
+.filter-right {
+    display: flex;
+    align-items: center;
 }
 
 .search-container {
     position: relative;
-    flex: 1;
     max-width: 300px;
 }
 
@@ -184,7 +224,93 @@
     background-color: white;
 }
 
-/* Table */
+.btn-tambah {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: rgb(69, 80, 99);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.btn-tambah:hover {
+    background-color: #374151;
+    color: white;
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+
+.plus-icon {
+    width: 20px;
+    height: 20px;
+    margin-left: -6px;
+}
+
+/* Status badges */
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.status-process {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.status-done {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+/* Filter info */
+.filter-info {
+    margin-top: 16px;
+    padding: 12px 16px;
+    background-color: #f1f5f9;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.filter-text {
+    font-size: 14px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.filter-tag {
+    background-color: #3b82f6;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.clear-filter {
+    color: #dc2626;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.clear-filter:hover {
+    text-decoration: underline;
+}
+
+/* Table styles... (keep existing table styles) */
 .table-container {
     border-radius: 12px;
     overflow: hidden;
@@ -264,7 +390,6 @@
     font-style: italic;
 }
 
-/* Actions */
 .actions-container {
     display: flex;
     align-items: center;
@@ -291,7 +416,6 @@
     transform: translateY(-1px);
 }
 
-/* Dropdown */
 .dropdown-wrapper {
     position: relative;
 }
@@ -398,6 +522,11 @@
         gap: 16px;
     }
     
+    .filter-left {
+        flex-direction: column;
+        gap: 16px;
+    }
+    
     .search-container {
         max-width: none;
     }
@@ -406,12 +535,16 @@
         justify-content: space-between;
     }
     
+    .filter-right {
+        justify-content: center;
+    }
+    
     .table-container {
         overflow-x: auto;
     }
     
     .orders-table {
-        min-width: 600px;
+        min-width: 700px;
     }
     
     .actions-container {
@@ -423,22 +556,18 @@
 </style>
 
 <script>
-// Toggle dropdown functionality
 function toggleDropdown(button) {
-    // Close all other dropdowns
     const allDropdowns = document.querySelectorAll('.dropdown-menu');
     allDropdowns.forEach(dropdown => {
         if (dropdown !== button.nextElementSibling) {
             dropdown.classList.remove('show');
         }
     });
-    
-    // Toggle current dropdown
+
     const dropdown = button.nextElementSibling;
     dropdown.classList.toggle('show');
 }
 
-// Close dropdown when clicking outside
 document.addEventListener('click', function(event) {
     if (!event.target.closest('.dropdown-wrapper')) {
         const dropdowns = document.querySelectorAll('.dropdown-menu');
@@ -448,37 +577,27 @@ document.addEventListener('click', function(event) {
     }
 });
 
-// Search functionality
 document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('searchInput');
     const filterSelect = document.getElementById('filterSelect');
+    const form = document.getElementById('filterForm');
     
-    function filterTable() {
-        const searchTerm = searchInput.value.toLowerCase();
-        const filterValue = filterSelect.value;
-        const rows = document.querySelectorAll('.data-row');
-        
-        rows.forEach(row => {
-            const name = row.querySelector('.name-cell').textContent.toLowerCase();
-            const service = row.querySelector('.service-cell').textContent.toLowerCase();
-            
-            const matchesSearch = name.includes(searchTerm) || service.includes(searchTerm);
-            const matchesFilter = filterValue === 'semua'; // Add more filter logic as needed
-            
-            if (matchesSearch && matchesFilter) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
+    // Auto submit form when filter changes
+    if (filterSelect) {
+        filterSelect.addEventListener('change', function() {
+            form.submit();
         });
     }
     
+    // Debounced search
+    let searchTimeout;
     if (searchInput) {
-        searchInput.addEventListener('input', filterTable);
-    }
-    
-    if (filterSelect) {
-        filterSelect.addEventListener('change', filterTable);
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                form.submit();
+            }, 500); // Wait 500ms after user stops typing
+        });
     }
 });
 
@@ -486,6 +605,7 @@ document.addEventListener('DOMContentLoaded', function() {
 document.getElementById('searchInput')?.addEventListener('keypress', function(e) {
     if (e.key === 'Enter') {
         e.preventDefault();
+        document.getElementById('filterForm').submit();
     }
 });
 </script>
