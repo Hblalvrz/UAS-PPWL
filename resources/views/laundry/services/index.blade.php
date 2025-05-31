@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('laundry.layouts.app')
 
 @section('content')
     <header class="flex flex-col gap-4 h-24">

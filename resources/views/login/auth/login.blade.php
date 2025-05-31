@@ -23,8 +23,8 @@
                     <label for="name" class="block mb-1 font-bold text-[#2D4559]">
                         Username*
                     </label>
-                    <input id="name" name="name" type="text" placeholder="Masukkan username"
-                        value="{{ old('name') }}"
+
+                    <input id="name" name="name" type="text" placeholder="Masukkan username" value="{{ old('name') }}"
                         class="block w-full rounded-lg border border-[#AEBECD] px-4 py-3 text-[#2D4559] placeholder-[#AEBECD] focus:outline-none focus:ring-2 focus:ring-[#60B8FF]"
                         required>
                     @error('name')
@@ -84,13 +84,15 @@
     </div>
     <script>
         // Toggle show/hide password
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
+
             const passwordInput = document.getElementById('password');
             const toggleBtn = document.getElementById('togglePassword');
             const eyeIcon = document.getElementById('eyeIcon');
             const eyeOffIcon = document.getElementById('eyeOffIcon');
 
-            toggleBtn.addEventListener('click', function() {
+            toggleBtn.addEventListener('click', function () {
+
                 if (passwordInput.type === 'password') {
                     passwordInput.type = 'text';
                     eyeIcon.classList.add('hidden');
@@ -125,4 +127,5 @@
             passwordInput.addEventListener('input', validate);
         });
     </script>
+
 @endsection

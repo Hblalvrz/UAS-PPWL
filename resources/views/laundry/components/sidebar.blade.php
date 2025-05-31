@@ -20,6 +20,12 @@
                 </a>
             </div>
             <div class="flex items-center">
+
+                <div class="my-4">
+                    <p class="text-sm font-bold text-[#2D4559]" role="none">
+                        {{ Auth::user()->name }}
+                    </p>
+                </div>
                 <div class="flex items-center ms-3">
                     <div>
                         <button type="button"
@@ -33,11 +39,8 @@
                     </div>
                     <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-sm shadow-sm"
                         id="dropdown-user">
-                        <div class="px-4 py-3" role="none">
-                            <p class="text-sm text-text-[#2D4559]" role="none">
-                                {{ Auth::user()->name }}
-                            </p>
-                        </div>
+
+
                         <ul class="py-1" role="none">
                             <li>
                                 <form method="POST" action="{{ route('logout') }}">
@@ -66,9 +69,11 @@
                 <a href="{{ route('laundry.dashboard.index') }}"
                     class="flex items-center p-2 rounded-lg
                   {{ request()->routeIs('dashboard.index') ? 'bg-gray-200 text-[#2D4559]' : 'text-gray-400 hover:bg-gray-200' }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"
-                        stroke-linejoin="round" class="lucide lucide-layout-dashboard-icon lucide-layout-dashboard">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-layout-dashboard-icon lucide-layout-dashboard">
+
                         <rect width="7" height="9" x="3" y="3" rx="1" />
                         <rect width="7" height="5" x="14" y="3" rx="1" />
                         <rect width="7" height="9" x="14" y="12" rx="1" />
@@ -81,9 +86,11 @@
                 <a href="{{ route('services.index') }}"
                     class="flex items-center p-2 rounded-lg
                   {{ request()->routeIs('services.index') ? 'bg-gray-200 text-[#2D4559]' : 'text-gray-400 hover:bg-gray-200' }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"
-                        stroke-linejoin="round" class="lucide lucide-circle-plus-icon lucide-circle-plus">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-circle-plus-icon lucide-circle-plus">
+
                         <circle cx="12" cy="12" r="10" />
                         <path d="M8 12h8" />
                         <path d="M12 8v8" />
@@ -95,9 +102,11 @@
                 <a href="{{ route('orders.index') }}"
                     class="flex items-center p-2 rounded-lg
                   {{ request()->routeIs('orders.index') ? 'bg-gray-200 text-[#2D4559]' : 'text-gray-400 hover:bg-gray-200' }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"
-                        stroke-linejoin="round" class="lucide lucide-shirt-icon lucide-shirt">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-shirt-icon lucide-shirt">
+
                         <path
                             d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z" />
                     </svg>
