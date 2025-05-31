@@ -7,8 +7,10 @@
             <p class="text-sm text-[#]">Pantau dan kelola Laundry anda</p>
         </div>
     </header>
+
+    <!-- Pesanan -->
     <div class="grid grid-cols-4 gap-4 mb-4">
-        <!-- Card 1: Page Views -->
+        <!-- Card 1: Pesanan Hari Ini -->
         <div class="bg-white border border-gray-200 rounded-xl p-5 shadow-sm flex flex-col justify-between min-h-[110px]">
             <div class="flex items-center justify-between">
                 <span class="text-sm text-[#2D4559] font-bold">Pesanan Hari ini</span>
@@ -22,7 +24,7 @@
             </div>
         </div>
 
-        <!-- Card 2: Total Revenue -->
+        <!-- Card 2: Total Pesanan -->
         <div class="bg-white border border-gray-200 rounded-xl p-5 shadow-sm flex flex-col justify-between min-h-[110px]">
             <div class="flex items-center justify-between">
                 <span class="text-sm text-[#2D4559] font-bold">Total Pesanan</span>
@@ -36,7 +38,7 @@
             </div>
         </div>
 
-        <!-- Card 3: Bounce Rate -->
+        <!-- Card 3: Pesanan Selesai -->
         <div class="bg-white border border-gray-200 rounded-xl p-5 shadow-sm flex flex-col justify-between min-h-[110px]">
             <div class="flex items-center justify-between">
                 <span class="text-sm text-[#2D4559] font-bold">Pesanan Selesai</span>
@@ -50,7 +52,7 @@
             </div>
         </div>
 
-        <!-- Card 3: Bounce Rate -->
+        <!-- Card 4: Pesanan dalam Progress -->
         <div class="bg-white border border-gray-200 rounded-xl p-5 shadow-sm flex flex-col justify-between min-h-[110px]">
             <div class="flex items-center justify-between">
                 <span class="text-sm text-[#2D4559] font-bold">Pesanan Dalam Pengerjaan</span>
@@ -65,6 +67,7 @@
         </div>
     </div>
 
+    <!-- Layanan -->
     <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-6 overflow-x-auto mb-4">
         <span class="text-sm font-bold text-[#2D4559] mb-4">Daftar Layanan</span>
         <table class="min-w-full divide-y divide-gray-200">
@@ -89,6 +92,7 @@
         </table>
     </div>
 
+    <!-- Review -->
     <div class="grid grid-cols-2 gap-4 mb-4">
         <div class="flex items-center justify-center rounded-sm bg-gray-50 h-28 dark:bg-gray-800">
             <p class="text-2xl text-gray-400 dark:text-gray-500">
