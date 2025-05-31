@@ -33,8 +33,8 @@
                 Cari Laundry
             </a>
 
-            <a class="{{ request()->routeIs('customer.dashboard.riwayat') ? 'text-[#2B3A55] border-b-2 border-[#2B3A55]' : 'text-[#9CA3AF] hover:text-[#2B3A55]' }} pb-1 transition-all"
-                href="#">
+            <a class="{{ request()->routeIs('customer.riwayat.riwayat') ? 'text-[#2B3A55] border-b-2 border-[#2B3A55]' : 'text-[#9CA3AF] hover:text-[#2B3A55]' }} pb-1 transition-all"
+                href="{{ route('customer.riwayat.riwayat') }}">
                 Riwayat Pemesanan
             </a>
         </nav>
