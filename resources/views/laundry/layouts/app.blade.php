@@ -20,7 +20,7 @@
 
 <body class="bg-white min-h-screen flex flex-col">
     <div class="flex h-screen">
-        @include('components.sidebar')
+        @include('laundry.components.sidebar')
         <main class="flex-1 p-4 sm:ml-64">
             <div class="p-4 mt-14">
                 @yield('content')
