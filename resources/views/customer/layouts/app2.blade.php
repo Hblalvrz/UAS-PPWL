@@ -23,16 +23,22 @@
                 height="100" src="/logo.png" width="60" />
         </div>
         <nav class="flex space-x-6 text-sm font-normal text-[#9CA3AF]">
-            <a class="font-semibold text-[#2B3A55]" href="{{ route('customer.dashboard.index') }}">
+            <a class="{{ request()->routeIs('customer.dashboard.index') ? 'text-[#2B3A55] border-b-2 border-[#2B3A55]' : 'text-[#9CA3AF] hover:text-[#2B3A55]' }} pb-1 transition-all"
+                href="{{ route('customer.dashboard.index') }}">
                 Beranda
             </a>
-            <a href="{{ route('provider.index') }}">
+
+            <a class="{{ request()->routeIs('provider.index') ? 'text-[#2B3A55] border-b-2 border-[#2B3A55]' : 'text-[#9CA3AF] hover:text-[#2B3A55]' }} pb-1 transition-all"
+                href="{{ route('provider.index') }}">
                 Cari Laundry
             </a>
-            <a href="#">
+
+            <a class="{{ request()->routeIs('customer.riwayat.riwayat') ? 'text-[#2B3A55] border-b-2 border-[#2B3A55]' : 'text-[#9CA3AF] hover:text-[#2B3A55]' }} pb-1 transition-all"
+                href="{{ route('customer.riwayat.riwayat') }}">
                 Riwayat Pemesanan
             </a>
         </nav>
+
         <div>
             <i class="fas fa-user-circle text-[#2B3A55] text-2xl">
             </i>
