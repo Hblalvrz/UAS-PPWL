@@ -13,13 +13,18 @@
                         </path>
                     </svg>
                 </button>
-                <a href="{{ route('dashboard.index') }}" class="flex ms-2 md:me-24">
+                <a href="{{ route('laundry.dashboard.index') }}" class="flex ms-2 md:me-24">
                     <img src="/logo.png" class="h-8 me-3" alt="FlowBite Logo" />
                     <span class="self-center text-sm font-semibold sm:text-xl whitespace-nowrap text-[#2D4559]">Clean
                         Waves</span>
                 </a>
             </div>
             <div class="flex items-center">
+                <div class="my-4">
+                    <p class="text-sm font-bold text-[#2D4559]" role="none">
+                        {{ Auth::user()->name }}
+                    </p>
+                </div>
                 <div class="flex items-center ms-3">
                     <div>
                         <button type="button"
@@ -33,11 +38,6 @@
                     </div>
                     <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-sm shadow-sm"
                         id="dropdown-user">
-                        <div class="px-4 py-3" role="none">
-                            <p class="text-sm text-text-[#2D4559]" role="none">
-                                {{ Auth::user()->name }}
-                            </p>
-                        </div>
                         <ul class="py-1" role="none">
                             <li>
                                 <form method="POST" action="{{ route('logout') }}">
@@ -63,7 +63,7 @@
     <div class="h-full px-3 pb-4 overflow-y-auto bg-white">
         <ul class="space-y-2 font-medium text-sm">
             <li>
-                <a href="{{ route('dashboard.index') }}"
+                <a href="{{ route('laundry.dashboard.index') }}"
                     class="flex items-center p-2 rounded-lg
                   {{ request()->routeIs('dashboard.index') ? 'bg-gray-200 text-[#2D4559]' : 'text-gray-400 hover:bg-gray-200' }}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
