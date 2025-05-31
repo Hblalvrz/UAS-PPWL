@@ -16,6 +16,12 @@ Route::get('/', function () {
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('laundry.dashboard.index');
 
+Route::get('/order-provider', function () {
+    return view('customer.dashboard.order');
+})->middleware('auth')->name('customer.order');
+
+Route::get('/provider/list', [LaundryProviderController::class, 'index'])->name('provider.list');
+
 Route::get('/services', [LaundryServiceController::class, 'index'])->name('services.index');
 Route::resource('orders', OrderController::class);
 
