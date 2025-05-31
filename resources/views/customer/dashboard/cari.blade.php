@@ -15,9 +15,10 @@
             Temukan laundry dengan pelayanan terbaik dengan hasil dan harga yang
             memuaskan
         </p>
-        <button class="bg-[#0F172A] text-white text-xs font-semibold py-2 px-6 rounded" type="button">
+        <a class="bg-[#0F172A] text-white text-xs font-semibold py-2 px-6 rounded" type="button"
+            href="{{ route('provider.list') }}">
             Cari laundry
-        </button>
+        </a>
     </main>
     </div>
     </body>

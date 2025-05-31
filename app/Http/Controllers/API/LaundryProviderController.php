@@ -12,7 +12,7 @@ class LaundryProviderController extends Controller
     public function index()
     {
         $providers = LaundryProvider::all();
-        return view('customer.dashboard.cari', compact('providers'));
+        return view('customer.dashboard.provider', compact('providers'));
     }
 
     // Menyimpan laundry provider baru (API)
