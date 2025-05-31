@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('laundry.layouts.app')
 
 @section('content')
 <div class="order-page-container">
@@ -32,15 +32,6 @@
                         </select>
                     </div>
                 </div>
-                
-                <div class="filter-right">
-                    <a href="{{ route('orders.create') }}" class="btn-tambah">
-                        <svg class="plus-icon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                        </svg>
-                        Tambah Order
-                    </a>
-                </div>
             </div>
         </form>
 
@@ -51,6 +42,7 @@
                     <tr>
                         <th class="table-cell header-cell">Nama</th>
                         <th class="table-cell header-cell">Tanggal Order</th>
+                        <th class="table-cell header-cell">Tanggal Pickup</th>
                         <th class="table-cell header-cell">Layanan yang dipilih</th>
                         <th class="table-cell header-cell">Status</th>
                         <th class="table-cell header-cell actions-header">Aksi</th>
@@ -59,9 +51,18 @@
                 <tbody class="table-body">
                     @forelse($orders as $index => $order)
                         <tr class="table-row data-row" data-index="{{ $index }}">
-                            <td class="table-cell name-cell">{{ $order->user->name ?? '-' }}</td>
-                            <td class="table-cell date-cell">{{ \Carbon\Carbon::parse($order->pickup_date)->translatedFormat('d F Y') }}</td>
-                            <td class="table-cell service-cell">{{ $order->service->name ?? '-' }}</td>
+                            <td class="table-cell name-cell">
+                                {{ $order->user->name ?? $order->user->username ?? $order->user->email ?? '-' }}
+                            </td>
+                            <td class="table-cell date-cell">
+                                {{ \Carbon\Carbon::parse($order->created_at)->translatedFormat('d F Y') }}
+                            </td>
+                            <td class="table-cell pickup-cell">
+                                {{ \Carbon\Carbon::parse($order->pickup_date)->translatedFormat('d F Y') }}
+                            </td>
+                            <td class="table-cell service-cell">
+                                {{ $order->service->name ?? $order->service->service_name ?? '-' }}
+                            </td>
                             <td class="table-cell status-cell">
                                 <span class="status-badge status-{{ $order->status }}">
                                     {{ $order->status == 'process' ? 'Proses' : 'Selesai' }}
@@ -88,7 +89,7 @@
                         </tr>
                     @empty
                         <tr class="table-row empty-row">
-                            <td colspan="5" class="table-cell empty-cell">
+                            <td colspan="6" class="table-cell empty-cell">
                                 @if(request('search') || request('status') != 'semua')
                                     Tidak ada order yang sesuai dengan filter.
                                 @else
@@ -106,6 +107,7 @@
                             <td class="table-cell"></td>
                             <td class="table-cell"></td>
                             <td class="table-cell"></td>
+                            <td class="table-cell"></td>
                         </tr>
                     @endfor
                 </tbody>
@@ -115,20 +117,26 @@
 </div>
 
 <style>
-/* Existing styles... */
+html, body {
+    overflow: hidden;
+    height: 100vh;
+}
+
 .order-page-container {
     background-color: rgb(255, 255, 255);
     min-height: 100vh;
-    padding: 24px;
+    padding: 15px;
+    box-shadow: 0 1px 3px rgba(255, 255, 255, 0.1);
 }
 
 .order-content {
     background-color: white;
-    border-radius: 16px;
+    border-radius: 12px;
     padding: 32px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 3px rgba(255, 255, 255, 0.1);
     max-width: 1400px;
     margin: 0 auto;
+    border: 1px solid #d1d5db;
 }
 
 .order-header {
@@ -140,7 +148,10 @@
     font-weight: 600;
     color: #1e293b;
     margin: 0;
+    border-bottom: 1px solid #e2e8f0; 
+    padding-bottom: 12px; 
 }
+
 
 .order-filters {
     display: flex;
@@ -156,11 +167,6 @@
     align-items: center;
     gap: 24px;
     flex: 1;
-}
-
-.filter-right {
-    display: flex;
-    align-items: center;
 }
 
 .search-container {
@@ -224,97 +230,33 @@
     background-color: white;
 }
 
-.btn-tambah {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background-color: rgb(69, 80, 99);
-    color: white;
-    padding: 10px 20px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-    transition: all 0.2s ease;
-    border: none;
-    cursor: pointer;
-    white-space: nowrap;
-}
-
-.btn-tambah:hover {
-    background-color: #374151;
-    color: white;
-    text-decoration: none;
-    transform: translateY(-1px);
-}
-
-.plus-icon {
-    width: 20px;
-    height: 20px;
-    margin-left: -6px;
-}
-
-/* Status badges */
 .status-badge {
-    padding: 4px 12px;
+    padding: 6px 12px;
     border-radius: 12px;
     font-size: 12px;
     font-weight: 500;
     text-transform: uppercase;
+    display: inline-block;
+    width: fit-content;
+    border: 1px solid transparent;
 }
 
 .status-process {
     background-color: #fef3c7;
-    color: #92400e;
+    color: #d97706;
+    border-color: #f59e0b;
 }
 
 .status-done {
-    background-color: #d1fae5;
-    color: #065f46;
+    background-color: #dcfce7;
+    color: #16a34a;
+    border-color: #22c55e;
 }
 
-/* Filter info */
-.filter-info {
-    margin-top: 16px;
-    padding: 12px 16px;
-    background-color: #f1f5f9;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-}
-
-.filter-text {
-    font-size: 14px;
-    color: #64748b;
-    font-weight: 500;
-}
-
-.filter-tag {
-    background-color: #3b82f6;
-    color: white;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 12px;
-}
-
-.clear-filter {
-    color: #dc2626;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-}
-
-.clear-filter:hover {
-    text-decoration: underline;
-}
-
-/* Table styles... (keep existing table styles) */
 .table-container {
     border-radius: 12px;
     overflow: hidden;
-    border: 1px solid #e2e8f0;
+    border: 0.5px solid #e2e8f0;
 }
 
 .orders-table {
@@ -370,6 +312,11 @@
 
 .date-cell {
     color: #64748b;
+}
+
+.pickup-cell {
+    color: #059669;
+    font-weight: 500;
 }
 
 .service-cell {
@@ -506,7 +453,42 @@
     margin: 0;
 }
 
-/* Responsive */
+.filter-info {
+    margin-top: 16px;
+    padding: 12px 16px;
+    background-color: #f1f5f9;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.filter-text {
+    font-size: 14px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.filter-tag {
+    background-color: #3b82f6;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.clear-filter {
+    color: #dc2626;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.clear-filter:hover {
+    text-decoration: underline;
+}
+
 @media (max-width: 768px) {
     .order-page-container {
         padding: 16px;
@@ -535,16 +517,12 @@
         justify-content: space-between;
     }
     
-    .filter-right {
-        justify-content: center;
-    }
-    
     .table-container {
         overflow-x: auto;
     }
     
     .orders-table {
-        min-width: 700px;
+        min-width: 800px;
     }
     
     .actions-container {

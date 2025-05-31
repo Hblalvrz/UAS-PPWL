@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('laundry.layouts.app')
 
 @section('content')
 <div class="order-detail-container">
@@ -14,6 +14,10 @@
                     <div class="info-item">
                         <label>Nama Customer:</label>
                         <span>{{ $order->user->name ?? $order->user->username ?? $order->user->email ?? '-' }}</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Tanggal Order:</label>
+                        <span>{{ \Carbon\Carbon::parse($order->created_at)->translatedFormat('d F Y') }}</span>
                     </div>
                     <div class="info-item">
                         <label>Tanggal Pickup:</label>
@@ -61,7 +65,6 @@
 </div>
 
 <style>
-/* Disable scroll untuk body dan html */
 html, body {
     overflow: hidden;
     height: 100vh;
@@ -70,22 +73,22 @@ html, body {
 .order-detail-container {
     background-color: rgb(255, 255, 255);
     height: 100vh;
-    padding: 24px;
+    padding: 40px;
     overflow: hidden;
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    padding-top: 10px; /* Tambahkan padding top untuk menaikkan posisi */
+    padding-top: 10px;
 }
 
 .order-detail-content {
     background-color: white;
     border-radius: 12px;
-    padding: 32px;
+    padding: 5px;
     box-shadow: 0 1px 3px rgba(255, 255, 255, 0.1);
     max-width: 800px;
     width: 100%;
-    max-height: 85vh; /* Kurangi sedikit max-height */
+    max-height: 95vh; 
     overflow: hidden;
 }
 
@@ -97,6 +100,7 @@ html, body {
     height: 100%;
     display: flex;
     flex-direction: column;
+    animation: slideInUp 0.6s ease-out;
 }
 
 .order-info-section {
@@ -109,25 +113,42 @@ html, body {
     font-size: 20px;
     font-weight: 600;
     color: #1e293b;
-    margin-bottom: 20px; /* Kurangi margin bottom */
-    padding-bottom: 10px; /* Kurangi padding bottom */
+    margin-bottom: 20px; 
+    padding-bottom: 10px; 
     border-bottom: 1px solid #e5e7eb;
+    animation: slideInUp 0.7s ease-out;
 }
 
 .info-grid {
     display: block;
-    height: calc(100% - 50px); /* Sesuaikan dengan tinggi header yang lebih kecil */
+    height: calc(100% - 50px); 
     overflow: hidden;
+    animation: slideInUp 0.8s ease-out;
 }
 
 .info-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 14px 0; /* Naikkan sedikit padding */
+    padding: 14px 0; 
     border-bottom: 1px solid #f3f4f6;
     transition: background-color 0.2s ease;
+    animation: slideInUp 0.6s ease-out;
+    animation-fill-mode: forwards;
+    opacity: 0;
+    transform: translateY(20px);
 }
+
+/* Staggered animation untuk setiap info-item */
+.info-item:nth-child(1) { animation-delay: 0.1s; }
+.info-item:nth-child(2) { animation-delay: 0.2s; }
+.info-item:nth-child(3) { animation-delay: 0.3s; }
+.info-item:nth-child(4) { animation-delay: 0.4s; }
+.info-item:nth-child(5) { animation-delay: 0.5s; }
+.info-item:nth-child(6) { animation-delay: 0.6s; }
+.info-item:nth-child(7) { animation-delay: 0.7s; }
+.info-item:nth-child(8) { animation-delay: 0.8s; }
+.info-item:nth-child(9) { animation-delay: 0.9s; }
 
 .info-item:hover {
     background-color: #f8fafc;
@@ -153,6 +174,15 @@ html, body {
     text-align: right;
 }
 
+.info-item:nth-child(3) span {
+    color: #64748b; 
+}
+
+.info-item:nth-child(4) span {
+    color: #059669; 
+    font-weight: 600;
+}
+
 .status-badge {
     padding: 6px 12px;
     border-radius: 12px;
@@ -161,16 +191,19 @@ html, body {
     text-transform: uppercase;
     display: inline-block;
     width: fit-content;
+    border: 1px solid transparent;
 }
 
 .status-process {
     background-color: #fef3c7;
-    color: #92400e;
+    color: #d97706;
+    border-color: #f59e0b;
 }
 
 .status-done {
-    background-color: #d1fae5;
-    color: #065f46;
+    background-color: #dcfce7;
+    color: #16a34a;
+    border-color: #22c55e;
 }
 
 .order-actions {
@@ -182,6 +215,30 @@ html, body {
     justify-content: space-between;
     align-items: center;
     flex-shrink: 0;
+    animation: slideInUp 1.0s ease-out;
+}
+
+.order-detail-card .status-badge {
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    display: inline-block;
+    width: fit-content;
+    border: 1px solid transparent;
+}
+
+.order-detail-card .status-process {
+    background-color: #fef3c7;
+    color: #ea580c !important;
+    border-color: #f59e0b;
+}
+
+.order-detail-card .status-done {
+    background-color: #dcfce7;
+    color: #059669 !important;
+    border-color: #22c55e;
 }
 
 .btn-back {
@@ -220,10 +277,22 @@ html, body {
     background-color: #b91c1c;
 }
 
+/* Animation Keyframes */
+@keyframes slideInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 @media (max-width: 768px) {
     .order-detail-container {
         padding: 16px;
-        padding-top: 40px; /* Sesuaikan untuk mobile */
+        padding-top: 40px;
     }
     
     .order-detail-content {

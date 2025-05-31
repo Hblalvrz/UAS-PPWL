@@ -54,9 +54,10 @@ class OrderController extends Controller
             $query->where('status', $request->status);
         }
         
-        $orders = $query->latest('pickup_date')->get();
+        // Urutkan berdasarkan created_at (tanggal order) terbaru
+        $orders = $query->latest('created_at')->get();
         
-        return view('orders.index', compact('orders'));
+        return view('laundry.orders.index', compact('orders'));
     }
 
     public function create()
@@ -73,7 +74,7 @@ class OrderController extends Controller
             'user_id' => 'required|exists:users,user_id',
             'laundryProvider' => 'required|exists:laundry_providers,laundryProvider',
             'laundryService' => 'required|exists:laundry_services,laundryService',
-            'pickup_date' => 'required|date',
+            'pickup_date' => 'required|date|after_or_equal:today',
             'status' => 'required|in:process,done',
             'quantity' => 'required|integer|min:1',
             'total_price' => 'required|numeric|min:0'
@@ -86,7 +87,7 @@ class OrderController extends Controller
     public function show($id)
     {
         $order = Order::with(['user', 'provider', 'service'])->findOrFail($id);
-        return view('orders.show', compact('order'));
+        return view('laundry.orders.show', compact('order'));
     }
 
     public function edit($id)
@@ -95,7 +96,7 @@ class OrderController extends Controller
         $users = User::all();
         $providers = LaundryProvider::all();
         $services = LaundryService::all();
-        return view('orders.edit', compact('order', 'users', 'providers', 'services'));
+        return view('laundry.orders.edit', compact('order', 'users', 'providers', 'services'));
     }
 
     public function update(Request $request, $id)
