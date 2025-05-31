@@ -1,7 +1,6 @@
 @extends('laundry.layouts.app')
 
 @section('content')
-<<<<<<< HEAD
 <div class="order-page-container">
     <div class="order-content">
         <div class="order-header">
@@ -589,11 +588,3 @@ document.getElementById('searchInput')?.addEventListener('keypress', function(e)
 });
 </script>
 @endsection
-=======
-    <header class="flex flex-col gap-4 h-24">
-        <div>
-            <h1 class="text-2xl font-bold text-[#2D4559]">Orders</h1>
-        </div>
-    </header>
-@endsection
->>>>>>> 7a342306476b5d12df384e6bfa45a2b06159672a
