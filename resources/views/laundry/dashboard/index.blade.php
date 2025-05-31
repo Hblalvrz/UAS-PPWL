@@ -93,92 +93,58 @@
     </div>
 
     <!-- Review -->
-
-    <div class="grid grid-cols-2 gap-4 mb-4">
-        <div class="flex items-center justify-center rounded-sm bg-gray-50 h-28 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-                <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 18 18">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M9 1v16M1 9h16" />
-                </svg>
-            </p>
-        </div>
-        <div class="flex items-center justify-center rounded-sm bg-gray-50 h-28 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-                <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 18 18">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M9 1v16M1 9h16" />
-                </svg>
-            </p>
-        </div>
-        <div class="flex items-center justify-center rounded-sm bg-gray-50 h-28 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-                <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 18 18">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M9 1v16M1 9h16" />
-                </svg>
-            </p>
-        </div>
-        <div class="flex items-center justify-center rounded-sm bg-gray-50 h-28 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-                <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 18 18">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M9 1v16M1 9h16" />
-                </svg>
-            </p>
-        </div>
+    <!-- Review Terbaru -->
+    <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-6 overflow-x-auto mb-4">
+        <span class="text-sm font-bold text-[#2D4559] mb-4 block">Review Terbaru Customer</span>
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rating</th>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Review</th>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama Customer
+                    </th>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal</th>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Link</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                @foreach($reviews->sortByDesc('created_at')->take(7) as $review)
+                    <tr>
+                        <!-- Rating -->
+                        <td class="px-4 py-4 whitespace-nowrap text-sm">
+                            @for($i = 0; $i < ($review->rating ?? 5); $i++)
+                                <span class="text-yellow-400">&#9733;</span>
+                            @endfor
+                        </td>
+                        <!-- Isi Review -->
+                        <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900 max-w-xs truncate"
+                            title="{{ $review->contents }}">
+                            {{ Str::limit($review->contents, 60) }}
+                        </td>
+                        <!-- Nama Customer -->
+                        <td class="px-4 py-4 whitespace-nowrap text-sm text-[#2D4559] font-semibold flex items-center gap-2">
+                            <svg class="w-4 h-4 text-[#F9A825]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            {{ $review->user->name ?? '-' }}
+                        </td>
+                        <!-- Tanggal -->
+                        <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {{ \Carbon\Carbon::parse($review->created_at)->format('d M Y • H:i') }}
+                        </td>
+                        <!-- Link (jika ada) -->
+                        <td class="px-4 py-4 whitespace-nowrap text-sm">
+                            @if(!empty($review->link))
+                                <a href="{{ $review->link }}" target="_blank"
+                                    class="text-[#2D4559] underline truncate max-w-[120px] inline-block">{{ Str::limit($review->link, 20) }}</a>
+                            @else
+                                <span class="text-gray-300">-</span>
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
-    <div class="flex items-center justify-center h-48 mb-4 rounded-sm bg-gray-50 dark:bg-gray-800">
-        <p class="text-2xl text-gray-400 dark:text-gray-500">
-
-            <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M9 1v16M1 9h16" />
-            </svg>
-        </p>
-    </div>
-    <div class="grid grid-cols-2 gap-4">
-        <div class="flex items-center justify-center rounded-sm bg-gray-50 h-28 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-                <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 18 18">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M9 1v16M1 9h16" />
-                </svg>
-            </p>
-        </div>
-        <div class="flex items-center justify-center rounded-sm bg-gray-50 h-28 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-                <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 18 18">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M9 1v16M1 9h16" />
-                </svg>
-            </p>
-        </div>
-        <div class="flex items-center justify-center rounded-sm bg-gray-50 h-28 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-                <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 18 18">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M9 1v16M1 9h16" />
-                </svg>
-            </p>
-        </div>
-        <div class="flex items-center justify-center rounded-sm bg-gray-50 h-28 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-                <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 18 18">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M9 1v16M1 9h16" />
-                </svg>
-            </p>
-        </div>
-    </div>
-
 @endsection

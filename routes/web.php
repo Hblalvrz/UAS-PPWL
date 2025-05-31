@@ -12,7 +12,7 @@ use App\Models\LaundryService;
 
 Route::get('/', function () {
 
-    return view('login.auth.login')->name('login');
+    return view('login.auth.login');
 });
 
 Route::get('/laundry/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('laundry.dashboard.index');

@@ -19,17 +19,17 @@ class ReviewController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'user_id'           => 'required|exists:users,user_id',
-            'laundryProviders'  => 'required|exists:laundry_providers,laundryProvider',
-            'status'            => 'required|in:pending,reject,accepted',
-            'contents'          => 'required'
+            'user_id' => 'required|exists:users,user_id',
+            'laundryProviders' => 'required|exists:laundry_providers,laundryProvider',
+            'status' => 'required|in:pending,reject,accepted',
+            'contents' => 'required'
         ]);
 
         $review = Review::create($request->all());
 
         return response()->json([
             'message' => 'Review created successfully',
-            'data'    => $review
+            'data' => $review
         ], 201);
     }
 
@@ -42,17 +42,17 @@ class ReviewController extends Controller
         }
 
         $request->validate([
-            'user_id'           => 'sometimes|exists:users,user_id',
-            'laundryProviders'  => 'sometimes|exists:laundry_providers,laundryProvider',
-            'status'            => 'sometimes|in:pending,reject,accepted',
-            'contents'          => 'sometimes|required'
+            'user_id' => 'sometimes|exists:users,user_id',
+            'laundryProviders' => 'sometimes|exists:laundry_providers,laundryProvider',
+            'status' => 'sometimes|in:pending,reject,accepted',
+            'contents' => 'sometimes|required'
         ]);
 
         $review->update($request->all());
 
         return response()->json([
             'message' => 'Review updated successfully',
-            'data'    => $review
+            'data' => $review
         ]);
     }
 

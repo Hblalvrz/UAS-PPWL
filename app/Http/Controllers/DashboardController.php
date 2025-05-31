@@ -16,6 +16,7 @@ class DashboardController extends Controller
     $ordersProcess = Order::where('status', 'process')->count();
     $services = LaundryService::all();
     $reviews = Review::all();
+
     return view('laundry.dashboard.index', compact(
         'ordersTotalToday',
         'ordersTotal',

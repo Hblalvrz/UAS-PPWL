@@ -1,4 +1,4 @@
-@extends('layouts.auth')
+@extends('login.layouts.auth')
 
 @section('content')
     <div class="flex h-screen overflow-hidden">
