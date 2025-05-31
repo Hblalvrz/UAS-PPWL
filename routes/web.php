@@ -14,10 +14,22 @@ Route::get('/', function () {
     return view('login.auth.login');
 });
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('laundry.dashboard.index');
+
+Route::get('/laundry/dashboard', function () {
+    return view('laundry.dashboard.index');
+})->middleware('auth')->name('laundry.dashboard.index');
+
+Route::get('/customer/dashboard', function () {
+    return view('customer.dashboard.index');
+})->middleware('auth')->name('customer.dashboard.index');
+
+Route::get('/provider', function () {
+    return view('customer.cari.cari');
+})->middleware('auth')->name('provider.index');
+
 
 Route::get('/order-provider', function () {
-    return view('customer.dashboard.order');
+    return view('customer.cari.order');
 })->middleware('auth')->name('customer.order');
 
 Route::get('/provider/list', [LaundryProviderController::class, 'index'])->name('provider.list');
