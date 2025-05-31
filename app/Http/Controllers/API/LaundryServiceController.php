@@ -13,7 +13,7 @@ class LaundryServiceController extends Controller
     public function index()
     {
         $services = LaundryService::with('provider')->get();
-         return view('services.index', compact('services'));
+         return view('laundry.services.index', compact('services'));
     }
 
     // Menyimpan layanan laundry baru

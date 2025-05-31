@@ -7,12 +7,13 @@ use App\Http\Controllers\API\LaundryProviderController;
 use App\Http\Controllers\API\LaundryServiceController;
 use App\Http\Controllers\API\ReviewController;
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\DashboardController;
 use App\Models\LaundryService;
 
 Route::get('/', function () {
-
-    return view('login.auth.login')->name('login');
+    return view('login.auth.login');
 });
+
 
 Route::get('/laundry/dashboard', function () {
     return view('laundry.dashboard.index');
@@ -25,6 +26,7 @@ Route::get('/customer/dashboard', function () {
 Route::get('/provider', function () {
     return view('customer.cari.cari');
 })->middleware('auth')->name('provider.index');
+
 
 Route::get('/order-provider', function () {
     return view('customer.cari.order');
