@@ -1,83 +1,130 @@
 @extends('customer.layouts.app2')
 
 @section('content2')
-    <main class="flex flex-col items-center px-4 mt-10">
-        <h1 class="text-lg font-semibold text-[#1B2A41]">
-            Pesan Layanan
-        </h1>
-        <p class="text-sm text-[#4B5563] mt-1">
-            Pesan layanan laundry anda dibawah
-        </p>
-        <form aria-label="Laundry order form" class="mt-6 w-full max-w-md border border-[#1B2A41]/20 rounded-lg p-6">
-            <h2 class="text-sm font-semibold text-[#1B2A41] mb-4 text-center">
-                Fuad Laundry
-            </h2>
-            <div class="mb-4">
-                <label class="block text-xs font-semibold text-[#1B2A41] mb-1" for="service">
-                    Pilih Layanan
+    <main class="flex flex-col items-center px-4 mt-8">
+        <!-- Header Konten -->
+        <div class="text-center mb-6">
+            <div class="flex justify-center mb-2">
+                <i class="fas fa-truck-loading text-3xl text-[#1B2A41]"></i>
+            </div>
+            <h1 class="text-xl font-bold text-[#1B2A41]">
+                Pesan Layanan Laundry
+            </h1>
+            <p class="text-sm text-[#4B5563] mt-1">
+                Silakan lengkapi detail pesanan Anda
+            </p>
+        </div>
+
+        <!-- Form Pesanan -->
+        <form action="{{ route('customer.order.store') }}" method="POST"
+            class="w-full max-w-md bg-white rounded-xl shadow-md p-6 border border-[#1B2A41]/10">
+            @csrf
+            <input type="hidden" name="laundryProvider" value="{{ $provider->laundryProvider }}">
+
+            <!-- Nama Laundry -->
+            <div class="flex items-center justify-center gap-2 mb-4">
+                <i class="fas fa-store-alt text-[#1B2A41]"></i>
+                <h2 class="text-base font-semibold text-[#1B2A41]">
+                    {{ $provider->laundry_name }}
+                </h2>
+            </div>
+
+            <!-- Input Layanan -->
+            <div class="mb-5">
+                <label class="block text-xs font-medium text-[#1B2A41] mb-1" for="service">
+                    Layanan
                 </label>
                 <select
-                    class="w-full border border-[#1B2A41]/20 rounded-md text-xs text-[#1B2A41] py-2 px-3 focus:outline-none focus:ring-1 focus:ring-[#1B2A41]"
-                    id="service" name="service">
-                    <option>
-                        Cuci Setrika
-                    </option>
+                    class="w-full border border-[#1B2A41]/20 rounded-lg text-sm text-[#1B2A41] py-2 px-3 focus:outline-none focus:ring-1 focus:ring-[#1B2A41]"
+                    id="service" name="laundryService" required>
+                    @foreach ($services as $service)
+                        <option value="{{ $service->laundryService }}" data-price="{{ $service->price_per_kg }}">
+                            {{ $service->service_name }}
+                        </option>
+                    @endforeach
                 </select>
             </div>
-            <div class="mb-4">
-                <label class="block text-xs font-semibold text-[#1B2A41] mb-1" for="quantity">
-                    Kuantitas
+
+            <!-- Input Kuantitas -->
+            <div class="mb-5">
+                <label class="block text-xs font-medium text-[#1B2A41] mb-1" for="quantity">
+                    Kuantitas (Kg)
                 </label>
-                <div class="flex items-center border border-[#1B2A41]/20 rounded-md overflow-hidden">
-                    <input class="w-full text-xs text-[#1B2A41] py-2 px-3 focus:outline-none" id="quantity" min="0"
-                        name="quantity" type="number" value="2" />
-                    <span class="text-xs text-[#1B2A41] bg-white border-l border-[#1B2A41]/20 px-2 select-none">
-                        Kg
+                <div class="flex items-center border border-[#1B2A41]/20 rounded-lg overflow-hidden">
+                    <input class="w-full text-sm text-[#1B2A41] py-2 px-3 focus:outline-none" id="quantity" min="1"
+                        name="quantity" type="number" value="2" required />
+                </div>
+            </div>
+
+            <!-- Ringkasan Pesanan -->
+            <div class="bg-[#F5F7FA] rounded-lg p-4 mb-5">
+                <h3 class="text-xs font-semibold text-[#1B2A41] mb-2">Ringkasan Pesanan</h3>
+                <div class="grid grid-cols-2 gap-y-2 text-xs text-[#1B2A41]">
+                    <span>Estimasi Penyelesaian</span>
+                    <span class="text-right" id="estimation">
+                        {{ \Carbon\Carbon::now()->addDay()->translatedFormat('d F Y') }}
+                    </span>
+                    <span>Harga per Kg</span>
+                    <span class="text-right" id="pricePerKg">
+                        Rp {{ number_format($services->first()->price_per_kg ?? 0, 0, ',', '.') }}
+                    </span>
+                    <span>Total Kuantitas</span>
+                    <span class="text-right" id="totalQuantity">
+                        2 Kg
                     </span>
                 </div>
             </div>
-            <div class="text-[9px] text-[#1B2A41] mb-4 grid grid-cols-2 gap-x-2">
-                <div>
-                    <p class="leading-4">
-                        Estimasi Penyelesaian
-                    </p>
-                    <p class="leading-4 font-normal">
-                        Total Harga Layanan
-                    </p>
-                    <p class="leading-4 font-normal">
-                        Total kuantitas Laundry
-                    </p>
-                </div>
-                <div class="text-right">
-                    <p class="leading-4">
-                        01 Juni 2025
-                    </p>
-                    <p class="leading-4 font-normal">
-                        Rp 7.500/kg
-                    </p>
-                    <p class="leading-4 font-normal">
-                        2 Kg
-                    </p>
-                </div>
-            </div>
-            <div class="flex justify-between text-xs font-semibold text-[#1B2A41] mb-4">
-                <span>
-                    Total Harga
-                </span>
-                <span>
-                    Rp 15.000
+
+            <!-- Total Harga -->
+            <div class="flex justify-between items-center text-sm font-semibold text-[#1B2A41] mb-6">
+                <span>Total Harga</span>
+                <span class="text-lg font-bold" id="totalPrice">
+                    Rp {{ number_format(($services->first()->price_per_kg ?? 0) * 2, 0, ',', '.') }}
                 </span>
             </div>
-            <div class="flex space-x-3">
-                <button class="flex-1 bg-[#8CA3B7] text-white text-xs py-2 rounded-md disabled:opacity-50" type="submit">
-                    Pesan
-                </button>
-                <button
-                    class="flex-1 border border-[#8CA3B7] text-[#8CA3B7] text-xs py-2 rounded-md hover:bg-[#8CA3B7] hover:text-white transition"
-                    type="button">
+
+            <!-- Tombol Aksi -->
+            <div class="flex gap-3">
+                <a href="{{ route('provider.list') }}"
+                    class="flex-1 border border-[#1B2A41]/30 text-[#1B2A41] text-sm py-2 rounded-lg hover:bg-[#1B2A41]/10 text-center transition">
                     Batal
+                </a>
+                <button
+                    class="flex-1 bg-[#1B2A41] text-white text-sm py-2 rounded-lg hover:bg-[#1B2A41]/90 transition flex items-center justify-center gap-1"
+                    type="submit" id="btnPesan">
+                    <i class="fas fa-shopping-basket text-white text-sm"></i>
+                    Pesan
                 </button>
             </div>
         </form>
     </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const serviceSelect = document.getElementById('service');
+            const quantityInput = document.getElementById('quantity');
+            const pricePerKgEl = document.getElementById('pricePerKg');
+            const totalPriceEl = document.getElementById('totalPrice');
+            const totalQuantityEl = document.getElementById('totalQuantity');
+            const btnPesan = document.getElementById('btnPesan');
+
+            function updateTotal() {
+                const selectedOption = serviceSelect.options[serviceSelect.selectedIndex];
+                const pricePerKg = parseFloat(selectedOption.getAttribute('data-price')) || 0;
+                const quantity = parseInt(quantityInput.value) || 0;
+                const total = pricePerKg * quantity;
+
+                pricePerKgEl.textContent = 'Rp ' + pricePerKg.toLocaleString('id-ID');
+                totalPriceEl.textContent = 'Rp ' + total.toLocaleString('id-ID');
+                totalQuantityEl.textContent = quantity + ' Kg';
+
+                btnPesan.disabled = quantity < 1;
+            }
+
+            serviceSelect.addEventListener('change', updateTotal);
+            quantityInput.addEventListener('input', updateTotal);
+
+            updateTotal();
+        });
+    </script>
 @endsection

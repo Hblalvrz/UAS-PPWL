@@ -15,6 +15,16 @@ class LaundryProviderController extends Controller
         return view('customer.cari.provider', compact('providers'));
     }
 
+    public function searching(Request $request)
+    {
+        $search = $request->query('search');
+        $providers = LaundryProvider::when($search, function ($query, $search) {
+            return $query->where('laundry_name', 'like', '%' . $search . '%');
+        })->take(4)->get(); // Ambil 4 provider teratas untuk contoh
+
+        return view('customer.dashboard.index', compact('providers', 'search'));
+    }
+
     // Menyimpan laundry provider baru (API)
     public function store(Request $request)
     {

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\LaundryProvider;
+use App\Models\LaundryService;
 use App\Models\Order;
 use Illuminate\Http\Request;
 
@@ -15,6 +17,12 @@ class OrderController extends Controller
         return view('laundry.orders.index', compact('orders'));
     }
 
+    public function create($providerId)
+    {
+        $providers = LaundryProvider::with('services')->get();
+        return view('customer.cari.order', compact('providers'));
+    }
+
     // Menyimpan order baru
     public function store(Request $request)
     {
@@ -22,11 +30,11 @@ class OrderController extends Controller
             'user_id'           => 'required|exists:users,user_id',
             'laundryProvider'   => 'required|exists:laundry_providers,laundryProvider',
             'laundryService'    => 'required|exists:laundry_services,laundryService',
-            'pickup_date'       => 'required|date',
-            'status'            => 'required|in:process,done',
             'quantity'          => 'required|integer|min:1',
             'total_price'       => 'required|numeric|min:0'
         ]);
+
+        $service = LaundryService::find($request->laundryService);
 
         $order = Order::create($request->all());
 
