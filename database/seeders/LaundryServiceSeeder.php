@@ -3,47 +3,34 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\LaundryService;
+use Illuminate\Support\Facades\DB;
 
 class LaundryServiceSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
-        $services = [
+        DB::table('laundry_services')->insert([
             [
-                'laundryProviders' => 1,
+                'laundryProviders' => 1,  // ← Harus sesuai dengan data provider
                 'service_name' => 'Cuci Setrika',
-                'price_per_kg' => 7500.00,
+                'price_per_kg' => 7500,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
                 'laundryProviders' => 1,
                 'service_name' => 'Cuci Kering',
-                'price_per_kg' => 5000.00,
+                'price_per_kg' => 5000,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
-                'laundryProviders' => 1,
-                'service_name' => 'Setrika Saja',
-                'price_per_kg' => 4000.00,
+                'laundryProviders' => 2,
+                'service_name' => 'Express Wash',
+                'price_per_kg' => 10000,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
-            [
-                'laundryProviders' => 1,
-                'service_name' => 'Cuci Setrika',
-                'price_per_kg' => 8000.00,
-            ],
-            [
-                'laundryProviders' => 1,
-                'service_name' => 'Cuci Ekspres',
-                'price_per_kg' => 10000.00,
-            ],
-            [
-                'laundryProviders' => 1,
-                'service_name' => 'Cuci Setrika',
-                'price_per_kg' => 6500.00,
-            ],
-        ];
-
-        foreach ($services as $service) {
-            LaundryService::create($service);
-        }
+        ]);
     }
 }
