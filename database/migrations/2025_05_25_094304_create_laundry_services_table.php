@@ -9,10 +9,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('laundry_services', function (Blueprint $table) {
-            $table->id(); // 'id' auto‐increment (jika sebelumnya pakai 'laundryService' ubah sesuai)
-            $table->string('service_name');
-            $table->decimal('price_per_kg', 10, 2);
-            $table->string('image_path')->nullable();
+            $table->id();                     // kolom id
+            $table->string('service_name');   // nama layanan
+            $table->decimal('price_per_kg', 10, 2); // harga per kg
+            $table->string('image_path')->nullable(); // nama file gambar (opsional)
             $table->timestamps();
         });
     }

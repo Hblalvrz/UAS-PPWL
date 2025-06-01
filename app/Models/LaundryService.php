@@ -9,14 +9,10 @@ class LaundryService extends Model
 {
     use HasFactory;
 
-    // Jika primary key nama selain 'id', misalnya: 
-    // protected $primaryKey = 'laundryService';
-
+    // Kolom yang boleh di‐mass‐assign
     protected $fillable = [
         'service_name',
         'price_per_kg',
-        'image_path',
+        'image_path',   // gunakan nama kolom yang benar di migration
     ];
-
-    // (jika butuh relasi provider, tambahkan di sini, tapi untuk minimal CRUD services tidak wajib)
 }

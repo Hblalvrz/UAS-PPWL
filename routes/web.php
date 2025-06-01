@@ -38,30 +38,31 @@ Route::get('/riwayat-customer', function () {
 Route::get('/provider/list', [LaundryProviderController::class, 'index'])->name('provider.list');
 
 
-// … (route lain di sini) …
-
-// Pastikan user harus login untuk akses ini
 Route::middleware(['auth'])->group(function () {
-    // Daftar Layanan
+    // 1. Halaman Daftar Layanan (Web)
     Route::get('/services', [LaundryServiceController::class, 'index'])
          ->name('services.index');
-    // Form Tambah Layanan
+
+    // 2. Form Tambah Layanan (Web)
     Route::get('/services/create', [LaundryServiceController::class, 'create'])
          ->name('services.create');
-    // Simpan Layanan (POST)
+
+    // 3. Simpan Layanan (POST dari form)
     Route::post('/services', [LaundryServiceController::class, 'store'])
          ->name('services.store');
-    // Form Edit Layanan (GET)
+
+    // 4. Form Edit Layanan (Web)
     Route::get('/services/{id}/edit', [LaundryServiceController::class, 'edit'])
          ->name('services.edit');
-    // Update Layanan (PUT / PATCH)
+
+    // 5. Update Layanan (PUT/PATCH dari form)
     Route::put('/services/{id}', [LaundryServiceController::class, 'update'])
          ->name('services.update');
-    // Hapus Layanan (DELETE)
+
+    // 6. Hapus Layanan (DELETE dari form)
     Route::delete('/services/{id}', [LaundryServiceController::class, 'destroy'])
          ->name('services.destroy');
 });
-
 
 
 
