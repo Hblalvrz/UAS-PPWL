@@ -17,7 +17,8 @@ class Order extends Model
         'pickup_date',
         'status',
         'quantity',
-        'total_price'
+        'total_price',
+        'created_at'
     ];
 
     protected $casts = [
