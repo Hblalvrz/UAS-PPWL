@@ -16,9 +16,7 @@ Route::get('/laundry/dashboard', function () {
     return view('laundry.dashboard.index');
 })->middleware('auth')->name('laundry.dashboard.index');
 
-Route::get('/customer/dashboard', function () {
-    return view('customer.dashboard.index');
-})->middleware('auth')->name('customer.dashboard.index');
+Route::get('/customer/dashboard', [LaundryProviderController::class, 'searching'])->name('customer.dashboard.index');
 
 Route::get('/provider', function () {
     return view('customer.cari.cari');

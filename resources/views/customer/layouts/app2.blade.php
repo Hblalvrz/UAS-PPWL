@@ -3,48 +3,105 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <title>
-        Clean Waves
-    </title>
+    <title>Clean Waves</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <style>
-        /* Custom scrollbar removal for input */
         input::-webkit-search-cancel-button {
             -webkit-appearance: none;
+        }
+
+        /* Animasi dropdown */
+        .dropdown-menu {
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
         }
     </style>
 </head>
 
-<body class="bg-[#F8FAFF] font-sans text-[#2B3A55]">
-    <header class="flex items-center justify-between px-10 py-8 max-w-7xl mx-auto">
-        <div class="flex items-center space-x-2">
-            <img alt="Laundry service logo, dark blue background with white icon" class="w-35 h-17 object-contain"
-                height="100" src="/logo.png" width="60" />
-        </div>
-        <nav class="flex space-x-6 text-sm font-normal text-[#9CA3AF]">
-            <a class="{{ request()->routeIs('customer.dashboard.index') ? 'text-[#2B3A55] border-b-2 border-[#2B3A55]' : 'text-[#9CA3AF] hover:text-[#2B3A55]' }} pb-1 transition-all"
-                href="{{ route('customer.dashboard.index') }}">
-                Beranda
-            </a>
-
-            <a class="{{ request()->routeIs('provider.index') ? 'text-[#2B3A55] border-b-2 border-[#2B3A55]' : 'text-[#9CA3AF] hover:text-[#2B3A55]' }} pb-1 transition-all"
-                href="{{ route('provider.index') }}">
-                Cari Laundry
-            </a>
-
-            <a class="{{ request()->routeIs('customer.riwayat.riwayat') ? 'text-[#2B3A55] border-b-2 border-[#2B3A55]' : 'text-[#9CA3AF] hover:text-[#2B3A55]' }} pb-1 transition-all"
-                href="{{ route('customer.riwayat.riwayat') }}">
-                Riwayat Pemesanan
-            </a>
-        </nav>
-
-        <div>
-            <i class="fas fa-user-circle text-[#2B3A55] text-2xl">
-            </i>
+<body class="bg-[#F8FAFF] font-sans text-[#2B3A55] min-h-screen flex flex-col">
+    <header class="w-full bg-white border-b border-slate-200">
+        <div class="flex items-center justify-between px-6 md:px-8 py-2.5 max-w-7xl mx-auto">
+            <div class="flex items-center space-x-2">
+                <img alt="Laundry service logo, dark blue background with white icon"
+                    class="w-12 h-12 md:w-14 md:h-14 object-contain" src="/logo.png" />
+            </div>
+            <nav class="flex space-x-5 md:space-x-7 text-sm md:text-base font-medium">
+                <a class="{{ request()->routeIs('customer.dashboard.index') ? 'text-blue-700 border-b-2 border-blue-700' : 'text-[#9CA3AF] hover:text-blue-700' }} pb-1 transition-all"
+                    href="{{ route('customer.dashboard.index') }}">Beranda</a>
+                <a class="{{ request()->routeIs('provider.index') ? 'text-blue-700 border-b-2 border-blue-700' : 'text-[#9CA3AF] hover:text-blue-700' }} pb-1 transition-all"
+                    href="{{ route('provider.index') }}">Cari Laundry</a>
+                <a class="{{ request()->routeIs('customer.riwayat.riwayat') ? 'text-blue-700 border-b-2 border-blue-700' : 'text-[#9CA3AF] hover:text-blue-700' }} pb-1 transition-all"
+                    href="{{ route('customer.riwayat.riwayat') }}">Riwayat Pemesanan</a>
+            </nav>
+            <div class="relative dropdown">
+                <button
+                    class="flex items-center justify-center w-9 h-9 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition-all">
+                    <i class="fas fa-user-circle text-lg"></i>
+                </button>
+                <div class="dropdown-menu absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-10 py-1">
+                    <a href="#" class="block px-4 py-2 text-sm text-slate-700 hover:bg-blue-50">Profil</a>
+                    <a href="#" class="block px-4 py-2 text-sm text-slate-700 hover:bg-blue-50">Keluar</a>
+                </div>
+            </div>
         </div>
     </header>
-    @yield('content2')
+
+    <main class="flex-1">
+        @yield('content2')
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#0F172A] text-white py-8">
+        <div class="max-w-7xl mx-auto px-6 md:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Clean Waves</h4>
+                    <p class="text-sm text-blue-100">
+                        Layanan laundry modern dengan pelayanan terbaik, harga transparan, dan hasil maksimal.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Tautan Cepat</h4>
+                    <ul class="space-y-2">
+                        <li><a href="{{ route('customer.dashboard.index') }}"
+                                class="text-sm text-blue-100 hover:text-blue-300 transition-all">Beranda</a></li>
+                        <li><a href="{{ route('provider.index') }}"
+                                class="text-sm text-blue-100 hover:text-blue-300 transition-all">Cari Laundry</a></li>
+                        <li><a href="{{ route('customer.riwayat.riwayat') }}"
+                                class="text-sm text-blue-100 hover:text-blue-300 transition-all">Riwayat Pemesanan</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Kontak Kami</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-phone-alt text-sm text-blue-100"></i>
+                            <span class="text-sm text-blue-100">+62 858 9567 5549</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-envelope text-sm text-blue-100"></i>
+                            <span class="text-sm text-blue-100">info@cleanwaves.com</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i class="fab fa-instagram text-sm text-blue-100"></i>
+                            <span class="text-sm text-blue-100">@cleanwaves</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-blue-900 mt-8 pt-6 text-center text-sm text-blue-100">
+                &copy; {{ date('Y') }} Clean Waves. All rights reserved.
+            </div>
+        </div>
+    </footer>
 </body>
 
 </html>
