@@ -22,6 +22,7 @@ class ReviewController extends Controller
             'user_id'           => 'required|exists:users,user_id',
             'laundryProviders'  => 'required|exists:laundry_providers,laundryProvider',
             'status'            => 'required|in:pending,reject,accepted',
+            'value'             => 'required|integer|min:1|max:5',
             'contents'          => 'required'
         ]);
 
@@ -45,6 +46,7 @@ class ReviewController extends Controller
             'user_id'           => 'sometimes|exists:users,user_id',
             'laundryProviders'  => 'sometimes|exists:laundry_providers,laundryProvider',
             'status'            => 'sometimes|in:pending,reject,accepted',
+            'value'             => 'sometimes|integer|min:1|max:5',
             'contents'          => 'sometimes|required'
         ]);
 
