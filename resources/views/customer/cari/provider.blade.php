@@ -80,35 +80,34 @@
                                         class="font-bold text-xl text-slate-900 group-hover:text-blue-700 transition-colors">
                                         {{ $provider->laundry_name }}
                                     </h2>
-                                    <div class="flex items-center gap-1 mt-1">
-                                        @for ($i = 0; $i < 5; $i++)
-                                            <i class="fas fa-star text-yellow-400 text-xs"></i>
-                                        @endfor
-                                        <span class="text-xs text-slate-500 ml-1">(4.9)</span>
-                                    </div>
                                 </div>
                             </div>
                             <div class="text-right">
                                 <div class="text-xs text-slate-500">Mulai dari</div>
-                                <div class="font-bold text-lg text-green-600">Rp 3.500/kg</div>
+                                <div class="font-bold text-lg text-green-600">
+                                    @if ($provider->services->count() > 0)
+                                        Rp {{ number_format($provider->services->min('price_per_kg'), 0, ',', '.') }}/kg
+                                    @else
+                                        Rp 0/kg
+                                    @endif
+                                </div>
                             </div>
                         </div>
 
                         <!-- Info Section -->
                         <div class="flex-1 space-y-3 mb-6">
                             <div class="flex items-start gap-3 group/item">
+                            </div>
+                            <div class="flex items-center gap-3 group/item">
                                 <div
-                                    class="flex-shrink-0 w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center group-hover/item:bg-blue-100 transition-colors">
+                                    class="flex-shrink-0 w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center group-hover/item:bg-green-100 transition-colors">
                                     <i
-                                        class="fas fa-map-marker-alt text-slate-500 group-hover/item:text-blue-600 text-sm"></i>
+                                        class="fas fa-map-marker-alt text-slate-500 group-hover/item:text-green-600 text-sm"></i>
                                 </div>
-                                <div class="flex-1 min-w-0">
-                                    <p class="text-sm text-slate-700 leading-relaxed">{{ $provider->address }}</p>
-                                    <span class="inline-block mt-1 text-xs text-blue-600 font-medium">2.3 km dari lokasi
-                                        Anda</span>
+                                <div class="flex-1">
+                                    <p class="text-sm text-slate-700 font-medium">{{ $provider->address }}</p>
                                 </div>
                             </div>
-
                             <div class="flex items-center gap-3 group/item">
                                 <div
                                     class="flex-shrink-0 w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center group-hover/item:bg-green-100 transition-colors">
@@ -116,7 +115,6 @@
                                 </div>
                                 <div class="flex-1">
                                     <p class="text-sm text-slate-700 font-medium">{{ $provider->phone }}</p>
-                                    <span class="text-xs text-slate-500">Respon cepat dalam 5 menit</span>
                                 </div>
                             </div>
 
@@ -129,24 +127,6 @@
                                     <p class="text-sm text-slate-700 font-medium">Layanan Cepat</p>
                                     <span class="text-xs text-slate-500">Siap melayani setiap hari</span>
                                 </div>
-                            </div>
-                        </div>
-
-                        <!-- Features -->
-                        <div class="mb-6">
-                            <div class="flex flex-wrap gap-2">
-                                <span
-                                    class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 border border-blue-200">
-                                    <i class="fas fa-check-circle mr-1 text-xs"></i> Layanan Terbaik
-                                </span>
-                                <span
-                                    class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 border border-green-200">
-                                    <i class="fas fa-leaf mr-1 text-xs"></i> Eco Friendly
-                                </span>
-                                <span
-                                    class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800 border border-purple-200">
-                                    <i class="fas fa-truck mr-1 text-xs"></i> Antar Jemput
-                                </span>
                             </div>
                         </div>
 

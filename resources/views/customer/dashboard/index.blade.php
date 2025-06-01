@@ -421,7 +421,6 @@
                 </div>
             </section>
 
-            <!-- Testimonials Section - Enhanced -->
             <section class="mb-16">
                 <div class="text-center mb-16">
                     <h2 class="text-4xl md:text-5xl font-black text-gray-800 mb-6">
@@ -434,135 +433,49 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="group relative">
-                        <div
-                            class="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000">
-                        </div>
-                        <div
-                            class="relative bg-white rounded-2xl shadow-xl p-8 transform hover:-translate-y-2 transition-all duration-500 group-hover:shadow-2xl">
-                            <div class="absolute -top-4 left-8">
+                    @foreach ($providers as $provider)
+                        @foreach ($provider->reviews as $review)
+                            <div class="group relative">
                                 <div
-                                    class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
-                                    <i class="fas fa-quote-left text-white text-sm"></i>
+                                    class="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000">
                                 </div>
-                            </div>
-
-                            <div class="pt-4">
-                                <div class="flex items-center mb-6">
-                                    <div
-                                        class="w-16 h-16 bg-gradient-to-r from-blue-100 to-purple-100 rounded-full flex items-center justify-center mr-4 group-hover:scale-110 transition-transform">
-                                        <i class="fas fa-user text-blue-600 text-xl"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-black text-gray-800 text-lg">Budi Santoso</h4>
-                                        <p class="text-sm text-gray-500 font-medium">⭐ Pelanggan Setia</p>
-                                    </div>
-                                </div>
-
-                                <blockquote class="text-gray-700 italic text-lg leading-relaxed mb-4">
-                                    "Pelayanan cepat, hasil maksimal, harga terjangkau. Saya sangat puas dengan Clean
-                                    Waves!"
-                                </blockquote>
-
-                                <div class="flex justify-center">
-                                    <div class="flex space-x-1">
-                                        <i class="fas fa-star text-yellow-400"></i>
-                                        <i class="fas fa-star text-yellow-400"></i>
-                                        <i class="fas fa-star text-yellow-400"></i>
-                                        <i class="fas fa-star text-yellow-400"></i>
-                                        <i class="fas fa-star text-yellow-400"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="group relative">
-                        <div
-                            class="absolute -inset-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000">
-                        </div>
-                        <div
-                            class="relative bg-white rounded-2xl shadow-xl p-8 transform hover:-translate-y-2 transition-all duration-500 group-hover:shadow-2xl">
-                            <div class="absolute -top-4 left-8">
                                 <div
-                                    class="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-                                    <i class="fas fa-quote-left text-white text-sm"></i>
-                                </div>
-                            </div>
-
-                            <div class="pt-4">
-                                <div class="flex items-center mb-6">
-                                    <div
-                                        class="w-16 h-16 bg-gradient-to-r from-purple-100 to-pink-100 rounded-full flex items-center justify-center mr-4 group-hover:scale-110 transition-transform">
-                                        <i class="fas fa-user text-purple-600 text-xl"></i>
+                                    class="relative bg-white rounded-2xl shadow-xl p-8 transform hover:-translate-y-2 transition-all duration-500 group-hover:shadow-2xl">
+                                    <div class="absolute -top-4 left-8">
+                                        <div
+                                            class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-quote-left text-white text-sm"></i>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <h4 class="font-black text-gray-800 text-lg">Siti Aisyah</h4>
-                                        <p class="text-sm text-gray-500 font-medium">💎 Pelanggan VIP</p>
-                                    </div>
-                                </div>
-
-                                <blockquote class="text-gray-700 italic text-lg leading-relaxed mb-4">
-                                    "Antar jemput gratis, tidak perlu repot ke laundry lagi. Sangat membantu sekali!"
-                                </blockquote>
-
-                                <div class="flex justify-center">
-                                    <div class="flex space-x-1">
-                                        <i class="fas fa-star text-yellow-400"></i>
-                                        <i class="fas fa-star text-yellow-400"></i>
-                                        <i class="fas fa-star text-yellow-400"></i>
-                                        <i class="fas fa-star text-yellow-400"></i>
-                                        <i class="fas fa-star text-yellow-400"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="group relative">
-                        <div
-                            class="absolute -inset-1 bg-gradient-to-r from-green-500 to-teal-500 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000">
-                        </div>
-                        <div
-                            class="relative bg-white rounded-2xl shadow-xl p-8 transform hover:-translate-y-2 transition-all duration-500 group-hover:shadow-2xl">
-                            <div class="absolute -top-4 left-8">
-                                <div
-                                    class="w-8 h-8 bg-gradient-to-r from-green-500 to-teal-500 rounded-full flex items-center justify-center">
-                                    <i class="fas fa-quote-left text-white text-sm"></i>
-                                </div>
-                            </div>
-
-                            <div class="pt-4">
-                                <div class="flex items-center mb-6">
-                                    <div
-                                        class="w-16 h-16 bg-gradient-to-r from-green-100 to-teal-100 rounded-full flex items-center justify-center mr-4 group-hover:scale-110 transition-transform">
-                                        <i class="fas fa-user text-green-600 text-xl"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-black text-gray-800 text-lg">Andi Pratama</h4>
-                                        <p class="text-sm text-gray-500 font-medium">🏆 Pelanggan Premium</p>
-                                    </div>
-                                </div>
-
-                                <blockquote class="text-gray-700 italic text-lg leading-relaxed mb-4">
-                                    "Rating terverifikasi, pelayanan ramah, dan hasil laundry selalu bersih maksimal."
-                                </blockquote>
-
-                                <div class="flex justify-center">
-                                    <div class="flex space-x-1">
-                                        <i class="fas fa-star text-yellow-400"></i>
-                                        <i class="fas fa-star text-yellow-400"></i>
-                                        <i class="fas fa-star text-yellow-400"></i>
-                                        <i class="fas fa-star text-yellow-400"></i>
-                                        <i class="fas fa-star text-yellow-400"></i>
+                                    <div class="pt-4">
+                                        <div class="flex items-center mb-6">
+                                            <div
+                                                class="w-16 h-16 bg-gradient-to-r from-blue-100 to-purple-100 rounded-full flex items-center justify-center mr-4 group-hover:scale-110 transition-transform">
+                                                <i class="fas fa-user text-blue-600 text-xl"></i>
+                                            </div>
+                                            <div>
+                                                <h4 class="font-black text-gray-800 text-lg">{{ $review->user->name }}</h4>
+                                                <p class="text-sm text-gray-500 font-medium">⭐ Pelanggan
+                                                    {{ $review->provider->laundry_name }}</p>
+                                            </div>
+                                        </div>
+                                        <blockquote class="text-gray-700 italic text-lg leading-relaxed mb-4">
+                                            "{{ $review->contents }}"
+                                        </blockquote>
+                                        <div class="flex justify-center">
+                                            <div class="flex space-x-1">
+                                                @for ($i = 1; $i <= $review->value; $i++)
+                                                    <i class="fas fa-star text-yellow-400"></i>
+                                                @endfor
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        @endforeach
+                    @endforeach
                 </div>
             </section>
-
             <!-- Call to Action Section -->
             <section class="text-center mb-16">
                 <div
