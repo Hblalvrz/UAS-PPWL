@@ -26,17 +26,17 @@ class LaundryServiceSeeder extends Seeder
                 'price_per_kg' => 4000.00,
             ],
             [
-                'laundryProviders' => 2,
+                'laundryProviders' => 1,
                 'service_name' => 'Cuci Setrika',
                 'price_per_kg' => 8000.00,
             ],
             [
-                'laundryProviders' => 2,
+                'laundryProviders' => 1,
                 'service_name' => 'Cuci Ekspres',
                 'price_per_kg' => 10000.00,
             ],
             [
-                'laundryProviders' => 3,
+                'laundryProviders' => 1,
                 'service_name' => 'Cuci Setrika',
                 'price_per_kg' => 6500.00,
             ],

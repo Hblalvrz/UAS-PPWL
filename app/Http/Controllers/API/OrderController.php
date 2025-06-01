@@ -17,6 +17,27 @@ class OrderController extends Controller
         return view('laundry.orders.index', compact('orders'));
     }
 
+    // Tambahkan method ini di OrderController
+    public function history()
+    {
+        // Ambil order berdasarkan user yang login
+        $orders = Order::with(['provider', 'service'])
+            ->where('user_id', auth()->id())
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('customer.riwayat.riwayat', compact('orders'));
+    }
+
+    public function showDetail($id)
+    {
+        $orderDetail = Order::with(['user', 'provider', 'service'])->find($id);
+        if (!$orderDetail) {
+            abort(404);
+        }
+        return view('customer.riwayat.detail', compact('orderDetail'));
+    }
+
     public function create($providerId)
     {
         $providers = LaundryProvider::with('services')->get();
@@ -94,5 +115,15 @@ class OrderController extends Controller
         }
 
         return response()->json($order);
+    }
+
+    // Menampilkan halaman ulasan untuk order tertentu
+    public function review($orderId)
+    {
+        $order = Order::with(['provider', 'service'])->find($orderId);
+        if (!$order) {
+            abort(404);
+        }
+        return view('customer.riwayat.ulasan', compact('order'));
     }
 }

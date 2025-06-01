@@ -17,6 +17,9 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             PermissionSeeder::class,
             LaundryServiceSeeder::class
+            UsersTableSeeder::class,
+            LaundryProviderSeeder::class,
+            OrderSeeder::class,
         ]);
     }
 }
