@@ -22,10 +22,6 @@
 
      Route::get('/customer/dashboard', [LaundryProviderController::class, 'searching'])->name('customer.dashboard.index');
 
-     Route::get('/provider', function () {
-          return view('customer.cari.cari');
-     })->middleware('auth')->name('provider.index');
-
      Route::get('/customer/order/{provider}', [\App\Http\Controllers\OrderController::class, 'create'])->name('customer.order');
      Route::post('/customer/order', [\App\Http\Controllers\OrderController::class, 'storecustomer'])->name('customer.order.store');
 
