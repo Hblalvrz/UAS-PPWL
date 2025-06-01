@@ -3,35 +3,29 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\LaundryProvider;
+use Illuminate\Support\Facades\DB;
 
 class LaundryProviderSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
-        $providers = [
+        DB::table('laundry_providers')->insert([
             [
-                'laundry_name' => 'Fuad Laundry',
-                'address' => 'Sungai Ngawi No. 69',
-                'description' => 'Laundry terbaik dengan pelayanan cepat dan hasil memuaskan.',
-                'phone' => '+6269694646',
+                'laundryProvider' => 1,  // ← Pastikan ini ada
+                'name' => 'Clean & Fresh Laundry',
+                'address' => 'Jl. Sudirman No. 123',
+                'phone' => '081234567890',
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
-                'laundry_name' => 'Bersih Laundry',
-                'address' => 'Jl. Merdeka No. 10',
-                'description' => 'Pelayanan ramah dan harga terjangkau.',
-                'phone' => '+628123456789',
+                'laundryProvider' => 2,
+                'name' => 'Express Wash',
+                'address' => 'Jl. Thamrin No. 456',
+                'phone' => '081298765432',
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
-            [
-                'laundry_name' => 'Cahaya Laundry',
-                'address' => 'Jl. Sudirman No. 45',
-                'description' => 'Cepat, bersih, dan terpercaya.',
-                'phone' => '+628987654321',
-            ],
-        ];
-
-        foreach ($providers as $provider) {
-            LaundryProvider::create($provider);
-        }
+        ]);
     }
 }

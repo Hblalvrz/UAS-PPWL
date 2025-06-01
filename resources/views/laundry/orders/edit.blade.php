@@ -71,7 +71,7 @@
                                 </svg>
                                 Tanggal Pickup
                             </label>
-                            <input type="date" name="pickup_date" class="form-control" value="{{ $order->pickup_date->format('Y-m-d') }}" required>
+                            <input type="date" name="pickup_date" class="form-control" value="{{ $order->pickup_date ? $order->pickup_date->format('Y-m-d') : '' }}" required>
                             <small class="form-hint">Pilih tanggal untuk pengambilan laundry</small>
                         </div>
 
