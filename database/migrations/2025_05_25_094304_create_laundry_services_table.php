@@ -9,13 +9,11 @@ return new class extends Migration
     public function up()
     {
         Schema::create('laundry_services', function (Blueprint $table) {
-            $table->bigIncrements('laundryService');
-            $table->unsignedBigInteger('laundryProviders');
+            $table->id(); // 'id' auto‐increment (jika sebelumnya pakai 'laundryService' ubah sesuai)
             $table->string('service_name');
             $table->decimal('price_per_kg', 10, 2);
+            $table->string('image_path')->nullable();
             $table->timestamps();
-
-            $table->foreign('laundryProviders')->references('laundryProvider')->on('laundry_providers')->onDelete('cascade');
         });
     }
 

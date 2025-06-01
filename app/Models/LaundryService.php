@@ -9,16 +9,14 @@ class LaundryService extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'laundryService';
-    protected $fillable = ['laundryProviders', 'service_name', 'price_per_kg'];
+    // Jika primary key nama selain 'id', misalnya: 
+    // protected $primaryKey = 'laundryService';
 
-    public function provider()
-    {
-        return $this->belongsTo(LaundryProvider::class, 'laundryProviders', 'laundryProvider');
-    }
+    protected $fillable = [
+        'service_name',
+        'price_per_kg',
+        'image_path',
+    ];
 
-    public function orders()
-    {
-        return $this->hasMany(Order::class, 'laundryService', 'laundryService');
-    }
+    // (jika butuh relasi provider, tambahkan di sini, tapi untuk minimal CRUD services tidak wajib)
 }
