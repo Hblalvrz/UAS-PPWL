@@ -12,7 +12,7 @@ class ReviewController extends Controller
     public function index()
     {
         $reviews = Review::with(['user', 'provider'])->get();
-        return response()->json($reviews);
+        return view('customer.riwayat.ulasan', compact('reviews'));
     }
 
     // Menyimpan review baru
@@ -21,17 +21,13 @@ class ReviewController extends Controller
         $request->validate([
             'user_id'           => 'required|exists:users,user_id',
             'laundryProviders'  => 'required|exists:laundry_providers,laundryProvider',
-            'status'            => 'required|in:pending,reject,accepted',
             'value'             => 'required|integer|min:1|max:5',
             'contents'          => 'required'
         ]);
 
         $review = Review::create($request->all());
 
-        return response()->json([
-            'message' => 'Review created successfully',
-            'data'    => $review
-        ], 201);
+        return redirect()->route('customer.riwayat.riwayat')->with('success', 'Order berhasil dibuat!');
     }
 
     // Mengupdate review

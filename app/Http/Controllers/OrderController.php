@@ -13,34 +13,43 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         $query = Order::with(['user', 'provider', 'service']);
-        
+
         if ($request->filled('search')) {
             $searchTerm = $request->search;
-            $query->where(function($q) use ($searchTerm) {
+            $query->where(function ($q) use ($searchTerm) {
 
                 $userColumns = \Schema::getColumnListing('users');
                 $searchableUserColumns = array_intersect($userColumns, [
-                    'name', 'username', 'full_name', 'first_name', 'last_name', 'email'
+                    'name',
+                    'username',
+                    'full_name',
+                    'first_name',
+                    'last_name',
+                    'email'
                 ]);
-                
+
                 if (!empty($searchableUserColumns)) {
-                    $q->whereHas('user', function($userQuery) use ($searchTerm, $searchableUserColumns) {
-                        $userQuery->where(function($subQuery) use ($searchTerm, $searchableUserColumns) {
+                    $q->whereHas('user', function ($userQuery) use ($searchTerm, $searchableUserColumns) {
+                        $userQuery->where(function ($subQuery) use ($searchTerm, $searchableUserColumns) {
                             foreach ($searchableUserColumns as $column) {
                                 $subQuery->orWhere($column, 'like', '%' . $searchTerm . '%');
                             }
                         });
                     });
                 }
-                
+
                 $serviceColumns = \Schema::getColumnListing('laundry_services');
                 $searchableServiceColumns = array_intersect($serviceColumns, [
-                    'name', 'service_name', 'title', 'description', 'type'
+                    'name',
+                    'service_name',
+                    'title',
+                    'description',
+                    'type'
                 ]);
-                
+
                 if (!empty($searchableServiceColumns)) {
-                    $q->orWhereHas('service', function($serviceQuery) use ($searchTerm, $searchableServiceColumns) {
-                        $serviceQuery->where(function($subQuery) use ($searchTerm, $searchableServiceColumns) {
+                    $q->orWhereHas('service', function ($serviceQuery) use ($searchTerm, $searchableServiceColumns) {
+                        $serviceQuery->where(function ($subQuery) use ($searchTerm, $searchableServiceColumns) {
                             foreach ($searchableServiceColumns as $column) {
                                 $subQuery->orWhere($column, 'like', '%' . $searchTerm . '%');
                             }
@@ -49,14 +58,14 @@ class OrderController extends Controller
                 }
             });
         }
-        
+
         if ($request->filled('status') && $request->status !== 'semua') {
             $query->where('status', $request->status);
         }
-        
+
         // Urutkan berdasarkan created_at (tanggal order) terbaru
         $orders = $query->latest('created_at')->get();
-        
+
         return view('laundry.orders.index', compact('orders'));
     }
 
@@ -66,6 +75,7 @@ class OrderController extends Controller
         $services = LaundryService::where('laundryProviders', $providerId)->get();
         return view('customer.cari.order', compact('provider', 'services'));
     }
+
     public function storecustomer(Request $request)
     {
         $request->validate([
