@@ -71,7 +71,7 @@ class OrderController extends Controller
 
     public function create($providerId)
     {
-        $provider = LaundryProvider::findOrFail($providerId);
+        $provider = LaundryProvider::with('services')->findOrFail($providerId);
         $services = LaundryService::where('laundryProviders', $providerId)->get();
         return view('customer.cari.order', compact('provider', 'services'));
     }
@@ -99,7 +99,7 @@ class OrderController extends Controller
 
         ]);
 
-        return redirect()->route('customer.dashboard.index')->with('success', 'Order berhasil dibuat!');
+        return redirect()->route('customer.riwayat.riwayat')->with('success', 'Order berhasil dibuat!');
     }
 
 

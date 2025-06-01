@@ -29,9 +29,19 @@
     <header class="w-full bg-white border-b border-slate-200">
         <div class="flex items-center justify-between px-6 md:px-8 py-2.5 max-w-7xl mx-auto">
             <div class="flex items-center space-x-2">
-                <img alt="Laundry service logo, dark blue background with white icon"
-                    class="w-12 h-12 md:w-14 md:h-14 object-contain" src="/logo.png" />
+                <a href="{{ route('customer.dashboard.index') }}">
+                    <img alt="Laundry service logo, dark blue background with white icon"
+                        class="w-12 h-12 md:w-14 md:h-14 object-contain" src="/logo.png" />
+                </a>
+                <span class="text-sm md:text-base font-medium text-slate-700">
+                    @auth
+                        {{ auth()->user()->name }}
+                    @else
+                        Guest
+                    @endauth
+                </span>
             </div>
+
             <nav class="flex space-x-5 md:space-x-7 text-sm md:text-base font-medium">
                 <a class="{{ request()->routeIs('customer.dashboard.index') ? 'text-blue-700 border-b-2 border-blue-700' : 'text-[#9CA3AF] hover:text-blue-700' }} pb-1 transition-all"
                     href="{{ route('customer.dashboard.index') }}">Beranda</a>
@@ -40,17 +50,19 @@
                 <a class="{{ request()->routeIs('customer.riwayat.riwayat') ? 'text-blue-700 border-b-2 border-blue-700' : 'text-[#9CA3AF] hover:text-blue-700' }} pb-1 transition-all"
                     href="{{ route('customer.riwayat.riwayat') }}">Riwayat Pemesanan</a>
             </nav>
-            <div class="relative dropdown">
-                <button
-                    class="flex items-center justify-center w-9 h-9 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition-all">
-                    <i class="fas fa-user-circle text-lg"></i>
-                </button>
-                <div class="dropdown-menu absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-10 py-1">
-                    <a href="#" class="block px-4 py-2 text-sm text-slate-700 hover:bg-blue-50">Profil</a>
-                    <a href="#" class="block px-4 py-2 text-sm text-slate-700 hover:bg-blue-50">Keluar</a>
+            <div class="relative dropdown mt-2">
+                <div class="flex items-center space-x-2">
+                    <form method="POST" action="{{ route('logout') }}" class="flex items-center">
+                        @csrf
+                        <button type="submit"
+                            class="flex items-center space-x-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition-all px-4 py-1">
+                            <i class="fas fa-sign-out-alt text-lg"></i>
+                            <span class="text-sm">Logout</span>
+                        </button>
+                    </form>
                 </div>
             </div>
-        </div>
+
     </header>
 
     <main class="flex-1">

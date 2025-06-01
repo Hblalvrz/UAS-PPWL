@@ -17,7 +17,7 @@
 
         <!-- Form Pesanan -->
         <form action="{{ route('customer.order.store') }}" method="POST"
-            class="w-full max-w-md bg-white rounded-xl shadow-md p-6 border border-[#1B2A41]/10">
+            class="w-full max-w-md bg-white rounded-xl shadow-md p-6 border border-[#1B2A41]/10" id="orderForm">
             @csrf
             <input type="hidden" name="laundryProvider" value="{{ $provider->laundryProvider }}">
 
@@ -91,13 +91,65 @@
                 </a>
                 <button
                     class="flex-1 bg-[#1B2A41] text-white text-sm py-2 rounded-lg hover:bg-[#1B2A41]/90 transition flex items-center justify-center gap-1"
-                    type="submit" id="btnPesan">
+                    type="button" id="btnPesan">
                     <i class="fas fa-shopping-basket text-white text-sm"></i>
                     Pesan
                 </button>
             </div>
         </form>
     </main>
+
+    <!-- Pop-up Konfirmasi -->
+    <div id="confirmationModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-xl shadow-lg p-6 mx-4 max-w-sm w-full">
+            <!-- Header Modal -->
+            <div class="text-center mb-4">
+                <div class="flex justify-center mb-2">
+                    <i class="fas fa-exclamation-triangle text-3xl text-yellow-500"></i>
+                </div>
+                <h3 class="text-lg font-bold text-[#1B2A41]">Konfirmasi Pesanan</h3>
+            </div>
+
+            <!-- Detail Konfirmasi -->
+            <div class="bg-[#F5F7FA] rounded-lg p-4 mb-4">
+                <div class="text-xs text-[#1B2A41] space-y-2">
+                    <div class="flex justify-between">
+                        <span>Laundry:</span>
+                        <span class="font-semibold">{{ $provider->laundry_name }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Layanan:</span>
+                        <span class="font-semibold" id="confirmService"></span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Kuantitas:</span>
+                        <span class="font-semibold" id="confirmQuantity"></span>
+                    </div>
+                    <div class="flex justify-between border-t pt-2 mt-2">
+                        <span>Total Harga:</span>
+                        <span class="font-bold text-[#1B2A41]" id="confirmTotal"></span>
+                    </div>
+                </div>
+            </div>
+
+            <p class="text-xs text-[#4B5563] text-center mb-6">
+                Apakah Anda yakin ingin melanjutkan pesanan ini?
+            </p>
+
+            <!-- Tombol Modal -->
+            <div class="flex gap-3">
+                <button
+                    class="flex-1 border border-[#1B2A41]/30 text-[#1B2A41] text-sm py-2 rounded-lg hover:bg-[#1B2A41]/10 transition"
+                    id="cancelOrder">
+                    Batal
+                </button>
+                <button class="flex-1 bg-[#1B2A41] text-white text-sm py-2 rounded-lg hover:bg-[#1B2A41]/90 transition"
+                    id="confirmOrder">
+                    Ya, Pesan Sekarang
+                </button>
+            </div>
+        </div>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -107,6 +159,15 @@
             const totalPriceEl = document.getElementById('totalPrice');
             const totalQuantityEl = document.getElementById('totalQuantity');
             const btnPesan = document.getElementById('btnPesan');
+            const orderForm = document.getElementById('orderForm');
+
+            // Modal elements
+            const confirmationModal = document.getElementById('confirmationModal');
+            const confirmService = document.getElementById('confirmService');
+            const confirmQuantity = document.getElementById('confirmQuantity');
+            const confirmTotal = document.getElementById('confirmTotal');
+            const cancelOrder = document.getElementById('cancelOrder');
+            const confirmOrder = document.getElementById('confirmOrder');
 
             function updateTotal() {
                 const selectedOption = serviceSelect.options[serviceSelect.selectedIndex];
@@ -121,8 +182,52 @@
                 btnPesan.disabled = quantity < 1;
             }
 
+            function showConfirmationModal() {
+                const selectedOption = serviceSelect.options[serviceSelect.selectedIndex];
+                const serviceName = selectedOption.textContent;
+                const quantity = quantityInput.value;
+                const total = totalPriceEl.textContent;
+
+                confirmService.textContent = serviceName;
+                confirmQuantity.textContent = quantity + ' Kg';
+                confirmTotal.textContent = total;
+
+                confirmationModal.classList.remove('hidden');
+                confirmationModal.classList.add('flex');
+            }
+
+            function hideConfirmationModal() {
+                confirmationModal.classList.add('hidden');
+                confirmationModal.classList.remove('flex');
+            }
+
+            // Event listeners
             serviceSelect.addEventListener('change', updateTotal);
             quantityInput.addEventListener('input', updateTotal);
+
+            // Show modal when order button is clicked
+            btnPesan.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (quantityInput.value >= 1) {
+                    showConfirmationModal();
+                }
+            });
+
+            // Hide modal when cancel is clicked
+            cancelOrder.addEventListener('click', hideConfirmationModal);
+
+            // Submit form when confirm is clicked
+            confirmOrder.addEventListener('click', function() {
+                hideConfirmationModal();
+                orderForm.submit();
+            });
+
+            // Close modal when clicking outside
+            confirmationModal.addEventListener('click', function(e) {
+                if (e.target === confirmationModal) {
+                    hideConfirmationModal();
+                }
+            });
 
             updateTotal();
         });

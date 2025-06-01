@@ -11,8 +11,38 @@
      use App\Http\Controllers\OrderController as ControllersOrderController;
      use App\Models\LaundryService;
 
-     Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
-     Route::post('/', [AuthController::class, 'login']);
+     Route::group([], function () {
+          //Login
+          Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
+          Route::post('/', [AuthController::class, 'login']);
+
+          //Logout
+          Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+          //Register
+          Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+          Route::post('/register', [AuthController::class, 'register'])->name('register');
+     });
+
+     Route::prefix('customer')->middleware('auth')->group(function () {
+          //Beranda atau Dashboard
+          Route::get('/dashboard', [LaundryProviderController::class, 'searching'])->name('customer.dashboard.index');
+
+          //Cari Laundry
+          Route::get('/provider/list', [LaundryProviderController::class, 'index'])->name('provider.list');
+
+          //Cari Laundry - Order
+          Route::get('/order/{provider}', [\App\Http\Controllers\OrderController::class, 'create'])->name('customer.order');
+          Route::post('/order', [\App\Http\Controllers\OrderController::class, 'storecustomer'])->name('customer.order.store');
+
+          //Riwayat
+          Route::get('/riwayat', [OrderController::class, 'history'])->name('customer.riwayat.riwayat');
+          Route::get('/orders/{id}/detail', [OrderController::class, 'showDetail'])->name('orders.showDetail');
+
+          //Riwayat - Review
+          Route::get('/review/{orderId}', [\App\Http\Controllers\API\OrderController::class, 'review'])->name('customer.ulasan');
+          Route::post('/review', [ReviewController::class, 'store'])->name('customer.review.store');
+     });
 
      Route::get('/laundry/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('laundry.dashboard.index');
 
@@ -20,17 +50,6 @@
      //     return view('laundry.dashboard.index');
      // })->middleware('auth')->name('laundry.dashboard.index');
 
-     Route::get('/customer/dashboard', [LaundryProviderController::class, 'searching'])->name('customer.dashboard.index');
-
-     Route::get('/customer/order/{provider}', [\App\Http\Controllers\OrderController::class, 'create'])->name('customer.order');
-     Route::post('/customer/order', [\App\Http\Controllers\OrderController::class, 'storecustomer'])->name('customer.order.store');
-
-     Route::get('/riwayat-customer', [OrderController::class, 'history'])->name('customer.riwayat.riwayat');
-     Route::get('/orders/{id}/detail', [OrderController::class, 'showDetail'])->name('orders.showDetail');
-     Route::get('/review/{orderId}', [\App\Http\Controllers\API\OrderController::class, 'review'])->name('customer.ulasan');
-     Route::post('/review', [ReviewController::class, 'store'])->name('customer.review.store');
-
-     Route::get('/provider/list', [LaundryProviderController::class, 'index'])->name('provider.list');
 
 
      Route::middleware(['auth'])->group(function () {
@@ -63,8 +82,3 @@
 
 
      Route::resource('orders', OrderController::class);
-
-
-     Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
-     Route::post('/register', [AuthController::class, 'register'])->name('register');
-     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
