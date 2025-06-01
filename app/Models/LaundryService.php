@@ -9,10 +9,23 @@ class LaundryService extends Model
 {
     use HasFactory;
 
+    protected $table = 'laundry_services';
     protected $primaryKey = 'laundryService';
+    public $incrementing = true;
+    protected $keyType = 'int';
+
     protected $fillable = [
+        'laundryProviders',
         'service_name',
         'price_per_kg',
-        'image_path',   // gunakan nama kolom yang benar di migration
     ];
+
+    protected $casts = [
+        'price_per_kg' => 'decimal:2',
+    ];
+
+    public function laundryProvider()
+    {
+        return $this->belongsTo(LaundryProvider::class, 'laundryProviders', 'laundryProvider');
+    }
 }
