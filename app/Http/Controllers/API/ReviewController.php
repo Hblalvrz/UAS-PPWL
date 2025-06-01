@@ -27,7 +27,7 @@ class ReviewController extends Controller
 
         $review = Review::create($request->all());
 
-        return redirect()->route('customer.riwayat.riwayat')->with('success', 'Order berhasil dibuat!');
+        return redirect()->route('customer.riwayat.riwayat')->with('success', 'Ulasan berhasil dibuat!');
     }
 
     // Mengupdate review
