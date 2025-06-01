@@ -46,11 +46,6 @@
 
      Route::get('/laundry/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('laundry.dashboard.index');
 
-     // Route::get('/laundry/dashboard', function () {
-     //     return view('laundry.dashboard.index');
-     // })->middleware('auth')->name('laundry.dashboard.index');
-
-
 
      Route::middleware(['auth'])->group(function () {
           // 1. Halaman Daftar Layanan (Web)
@@ -76,9 +71,27 @@
           // 6. Hapus Layanan (DELETE dari form)
           Route::delete('/services/{id}', [LaundryServiceController::class, 'destroy'])
                ->name('services.destroy');
+          
+          Route::get('/orders', [ControllersOrderController::class, 'index'])
+               ->name('orders.index');
+
+          Route::get('/orders/create', [ControllersOrderController::class, 'create'])
+               ->name('orders.create');
+
+          Route::post('/orders', [ControllersOrderController::class, 'store'])
+               ->name('orders.store');
+
+          Route::get('/orders/{order_id}', [ControllersOrderController::class, 'show'])
+               ->name('orders.show');
+
+          Route::get('/orders/{order_id}/edit', [ControllersOrderController::class, 'edit'])
+               ->name('orders.edit');
+
+          Route::put('/orders/{order_id}', [ControllersOrderController::class, 'update'])
+               ->name('orders.update');
+               
+          Route::delete('/orders/{order_id}', [ControllersOrderController::class, 'destroy'])
+               ->name('orders.destroy');
      });
-
-
-
 
      Route::resource('orders', OrderController::class);
