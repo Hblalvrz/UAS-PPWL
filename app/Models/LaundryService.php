@@ -9,7 +9,7 @@ class LaundryService extends Model
 {
     use HasFactory;
 
-    // Kolom yang boleh di‐mass‐assign
+    protected $primaryKey = 'laundryService';
     protected $fillable = [
         'service_name',
         'price_per_kg',

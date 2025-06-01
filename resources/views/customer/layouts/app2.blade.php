@@ -35,8 +35,8 @@
             <nav class="flex space-x-5 md:space-x-7 text-sm md:text-base font-medium">
                 <a class="{{ request()->routeIs('customer.dashboard.index') ? 'text-blue-700 border-b-2 border-blue-700' : 'text-[#9CA3AF] hover:text-blue-700' }} pb-1 transition-all"
                     href="{{ route('customer.dashboard.index') }}">Beranda</a>
-                <a class="{{ request()->routeIs('provider.index') ? 'text-blue-700 border-b-2 border-blue-700' : 'text-[#9CA3AF] hover:text-blue-700' }} pb-1 transition-all"
-                    href="{{ route('provider.index') }}">Cari Laundry</a>
+                <a class="{{ request()->routeIs('provider.list') ? 'text-blue-700 border-b-2 border-blue-700' : 'text-[#9CA3AF] hover:text-blue-700' }} pb-1 transition-all"
+                    href="{{ route('provider.list') }}">Cari Laundry</a>
                 <a class="{{ request()->routeIs('customer.riwayat.riwayat') ? 'text-blue-700 border-b-2 border-blue-700' : 'text-[#9CA3AF] hover:text-blue-700' }} pb-1 transition-all"
                     href="{{ route('customer.riwayat.riwayat') }}">Riwayat Pemesanan</a>
             </nav>
@@ -72,7 +72,7 @@
                     <ul class="space-y-2">
                         <li><a href="{{ route('customer.dashboard.index') }}"
                                 class="text-sm text-blue-100 hover:text-blue-300 transition-all">Beranda</a></li>
-                        <li><a href="{{ route('provider.index') }}"
+                        <li><a href="{{ route('provider.list') }}"
                                 class="text-sm text-blue-100 hover:text-blue-300 transition-all">Cari Laundry</a></li>
                         <li><a href="{{ route('customer.riwayat.riwayat') }}"
                                 class="text-sm text-blue-100 hover:text-blue-300 transition-all">Riwayat Pemesanan</a>
