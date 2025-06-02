@@ -68,7 +68,7 @@
             <li>
                 <a href="{{ route('laundry.dashboard.index') }}"
                     class="flex items-center p-2 rounded-lg
-                  {{ request()->routeIs('dashboard.index') ? 'bg-gray-200 text-[#2D4559]' : 'text-gray-400 hover:bg-gray-200' }}">
+                  {{ request()->routeIs('laundry.dashboard.index') ? 'bg-gray-200 text-[#2D4559]' : 'text-gray-400 hover:bg-gray-200' }}">
 
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"

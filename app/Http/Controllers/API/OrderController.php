@@ -17,7 +17,6 @@ class OrderController extends Controller
         return view('laundry.orders.index', compact('orders'));
     }
 
-    // Tambahkan method ini di OrderController
     public function history()
     {
         // Ambil order berdasarkan user yang login
@@ -26,7 +25,7 @@ class OrderController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('customer.riwayat.riwayat', compact('orders'));
+        return view('customer.riwayat.history', compact('orders'));
     }
 
     public function showDetail($id)

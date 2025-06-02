@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\User;
 use App\Models\LaundryProvider;
 use App\Models\LaundryService;
+use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
         $query = Order::with(['user', 'provider', 'service']);
 
@@ -57,7 +57,7 @@ class OrderController extends Controller
                     });
                 }
             });
-        }
+          }
 
         if ($request->filled('status') && $request->status !== 'semua') {
             $query->where('status', $request->status);
@@ -117,15 +117,9 @@ class OrderController extends Controller
         ]);
 
         $service = LaundryService::find($request->laundryService);
-
+ 
         Order::create($request->all());
         return redirect()->route('orders.index')->with('success', 'Order berhasil ditambahkan!');
-    }
-
-    public function show($id)
-    {
-        $order = Order::with(['user', 'provider', 'service'])->findOrFail($id);
-        return view('laundry.orders.show', compact('order'));
     }
 
     public function edit($id)
@@ -134,7 +128,7 @@ class OrderController extends Controller
         $users = User::all();
         $providers = LaundryProvider::all();
         $services = LaundryService::all();
-        return view('laundry.orders.edit', compact('order', 'users', 'providers', 'services'));
+        return view('orders.edit', compact('order', 'users', 'providers', 'services'));
     }
 
     public function update(Request $request, $id)
@@ -149,7 +143,6 @@ class OrderController extends Controller
             'quantity' => 'required|integer|min:1',
             'total_price' => 'required|numeric|min:0'
         ]);
-
         $order->update($request->all());
         return redirect()->route('orders.index')->with('success', 'Order berhasil diupdate!');
     }
