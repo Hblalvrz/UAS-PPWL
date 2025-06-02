@@ -103,7 +103,7 @@
 
 <style>
 html, body {
-    overflow: hidden;
+    overflow: auto;
     height: 100vh;
 }
 
