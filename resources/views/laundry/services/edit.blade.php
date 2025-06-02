@@ -1,44 +1,47 @@
 @extends('laundry.layouts.app')
 
 @section('content')
-<div class="order-page-container">
-    <div class="order-content">
-        <div class="order-header">
-            <h1 class="order-title">Edit Order Laundry</h1>
+<div class="service-page-container">
+    <div class="service-content">
+        <div class="service-header">
+            <h1 class="service-title">Edit Layanan Laundry</h1>
         </div>
 
+        @if(session('success'))
+            <div class="alert-success">
+                {{ session('success') }}
+                <div class="mt-2">
+                    <a href="{{ route('services.index') }}" class="text-blue-600 hover:underline">&larr; Kembali ke Daftar Layanan</a>
+                </div>
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div class="alert-error">
+                <ul class="list-disc ml-5">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <div class="form-container">
-            <!-- Order Info Section (Read Only) -->
-            <div class="order-info-card">
-                <h3 class="info-title">Informasi Order</h3>
+            <!-- Service Info Section (Read Only) -->
+            <div class="service-info-card">
+                <h3 class="info-title">Informasi Layanan</h3>
                 <div class="info-grid">
                     <div class="info-item">
-                        <label>ID Order</label>
-                        <span>{{ $order->order_id }}</span>
+                        <label>ID Layanan</label>
+                        <span>{{ $service->laundryService }}</span>
                     </div>
                     <div class="info-item">
-                        <label>Nama Customer</label>
-                        <span>{{ $order->user->name ?? $order->user->username ?? $order->user->email ?? '-' }}</span>
+                        <label>Nama Layanan Saat Ini</label>
+                        <span>{{ $service->service_name }}</span>
                     </div>
                     <div class="info-item">
-                        <label>Tanggal Order</label>
-                        <span>{{ \Carbon\Carbon::parse($order->created_at)->translatedFormat('d F Y') }}</span>
-                    </div>
-                    <div class="info-item">
-                        <label>Provider Laundry</label>
-                        <span>{{ $order->provider->name ?? $order->provider->provider_name ?? '-' }}</span>
-                    </div>
-                    <div class="info-item">
-                        <label>Layanan</label>
-                        <span>{{ $order->service->name ?? $order->service->service_name ?? '-' }}</span>
-                    </div>
-                    <div class="info-item">
-                        <label>Quantity</label>
-                        <span>{{ $order->quantity }} kg</span>
-                    </div>
-                    <div class="info-item">
-                        <label>Total Harga</label>
-                        <span>Rp {{ number_format($order->total_price, 0, ',', '.') }}</span>
+                        <label>Harga Saat Ini</label>
+                        <span>Rp {{ number_format($service->price_per_kg, 0, ',', '.') }}/kg</span>
                     </div>
                 </div>
             </div>
@@ -53,49 +56,48 @@
                     Edit Informasi
                 </h3>
                 
-                <form action="{{ route('orders.update', $order->order_id) }}" method="POST" class="order-form">
+                <form action="{{ route('services.update', $service->laundryService) }}" method="POST" class="service-form">
                     @csrf
                     @method('PUT')
-
-                    <input type="hidden" name="user_id" value="{{ $order->user_id }}">
-                    <input type="hidden" name="laundryProvider" value="{{ $order->laundryProvider }}">
-                    <input type="hidden" name="laundryService" value="{{ $order->laundryService }}">
-                    <input type="hidden" name="quantity" value="{{ $order->quantity }}">
-                    <input type="hidden" name="total_price" value="{{ $order->total_price }}">
 
                     <div class="editable-grid">
                         <div class="form-group highlight">
                             <label class="form-label">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                                    <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z"/>
+                                    <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z"/>
                                 </svg>
-                                Tanggal Pickup
+                                Nama Layanan
                             </label>
-                            <input type="date" name="pickup_date" class="form-control" value="{{ $order->pickup_date ? $order->pickup_date->format('Y-m-d') : '' }}" required>
-                            <small class="form-hint">Pilih tanggal untuk pengambilan laundry</small>
+                            <input type="text" 
+                                   name="service_name" 
+                                   class="form-control" 
+                                   value="{{ old('service_name', $service->service_name) }}" 
+                                   placeholder="Misal: Cuci Lipat"
+                                   required>
+                            <small class="form-hint">Masukkan nama layanan yang jelas dan mudah dipahami</small>
                         </div>
 
                         <div class="form-group highlight">
                             <label class="form-label">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                    <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
+                                    <path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718H4zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73l.348.086z"/>
                                 </svg>
-                                Status Order
+                                Harga per Kg
                             </label>
-                            <select name="status" class="form-control status-select" required>
-                                <option value="process" {{ $order->status == 'process' ? 'selected' : '' }}>
-                                    PROSES
-                                </option>
-                                <option value="done" {{ $order->status == 'done' ? 'selected' : '' }}>
-                                    SELESAI
-                                </option>
-                            </select>
-                            <small class="form-hint">Update status berdasarkan progress order</small>
+                            <input type="number" 
+                                   name="price_per_kg" 
+                                   step="0.01"
+                                   class="form-control" 
+                                   value="{{ old('price_per_kg', $service->price_per_kg) }}" 
+                                   placeholder="Misal: 5000"
+                                   required>
+                            <small class="form-hint">Masukkan harga dalam rupiah per kilogram</small>
                         </div>
                     </div>
 
                     <div class="form-actions">
-                        <a href="{{ route('orders.index') }}" class="btn-back">
+                        <a href="{{ route('services.index') }}" class="btn-back">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
                             </svg>
@@ -120,13 +122,13 @@ html, body {
     height: 100vh;
 }
 
-.order-page-container {
+.service-page-container {
     background-color: white;
     min-height: 100vh;
     padding: 20px;
 }
 
-.order-content {
+.service-content {
     background-color: white;
     border-radius: 20px;
     padding: 32px;
@@ -135,12 +137,12 @@ html, body {
     margin: 0 auto;
 }
 
-.order-header {
+.service-header {
     margin-bottom: 32px;
-    text-align: left; /* Ubah dari center ke left */
+    text-align: left;
 }
 
-.order-title {
+.service-title {
     font-size: 32px;
     font-weight: 700;
     color: #2d3748;
@@ -151,13 +153,25 @@ html, body {
     background-clip: text;
     border-bottom: 1px solid #e2e8f0;
     padding-bottom: 12px;
-    display: 12px; 
+    display: block;
 }
 
-.order-subtitle {
-    color: #718096;
-    font-size: 16px;
-    margin: 0;
+.alert-success {
+    margin-bottom: 24px;
+    border: 1px solid #22c55e;
+    background-color: #dcfce7;
+    color: #16a34a;
+    padding: 12px 16px;
+    border-radius: 8px;
+}
+
+.alert-error {
+    margin-bottom: 24px;
+    border: 1px solid #ef4444;
+    background-color: #fef2f2;
+    color: #dc2626;
+    padding: 12px 16px;
+    border-radius: 8px;
 }
 
 .form-container {
@@ -166,8 +180,8 @@ html, body {
     gap: 24px;
 }
 
-/* Order Info Card (Read Only) */
-.order-info-card {
+/* Service Info Card (Read Only) */
+.service-info-card {
     background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
     border-radius: 16px;
     padding: 24px;
@@ -185,7 +199,7 @@ html, body {
 }
 
 .info-title::before {
-    content: "📋";
+    content: "🛠️";
     font-size: 20px;
 }
 
@@ -285,10 +299,6 @@ html, body {
     transform: scale(1.02);
 }
 
-.status-select {
-    font-weight: 500;
-}
-
 .form-hint {
     color: #718096;
     font-size: 12px;
@@ -301,14 +311,14 @@ html, body {
     gap: 16px;
     justify-content: center;
     padding-top: 20px;
-    border-top: 2px solid #feb2b2; /* Ubah menjadi pink sesuai border form edit */
+    border-top: 2px solid #feb2b2;
 }
 
 .btn-submit {
     display: flex;
     align-items: center;
     gap: 8px;
-    background-color:rgb(147, 152, 159); 
+    background-color: rgb(147, 152, 159);
     color: white;
     padding: 14px 28px;
     border-radius: 12px;
@@ -322,7 +332,7 @@ html, body {
 }
 
 .btn-submit:hover {
-    background-color: #48bb78; /* Hijau saat di hover */
+    background-color: #48bb78;
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(72, 187, 120, 0.4);
 }
@@ -331,7 +341,7 @@ html, body {
     display: flex;
     align-items: center;
     gap: 8px;
-    background-color:rgb(151, 160, 173); 
+    background-color: rgb(151, 160, 173);
     color: white;
     padding: 14px 28px;
     border-radius: 12px;
@@ -343,7 +353,7 @@ html, body {
 }
 
 .btn-back:hover {
-    background-color: #4a5568; 
+    background-color: #4a5568;
     color: white;
     text-decoration: none;
     transform: translateY(-2px);
@@ -359,11 +369,11 @@ html, body {
 
 /* Responsive design */
 @media (max-width: 768px) {
-    .order-page-container {
+    .service-page-container {
         padding: 16px;
     }
     
-    .order-content {
+    .service-content {
         padding: 20px;
     }
     
@@ -396,12 +406,12 @@ html, body {
     }
 }
 
-.order-info-card,
+.service-info-card,
 .edit-form-card {
     animation: slideInUp 0.6s ease-out;
 }
 
-.order-info-card {
+.service-info-card {
     animation-delay: 0.1s;
 }
 
@@ -412,7 +422,7 @@ html, body {
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const form = document.querySelector('.order-form');
+    const form = document.querySelector('.service-form');
     const submitBtn = document.querySelector('.btn-submit');
     const formControls = document.querySelectorAll('.form-control');
     
@@ -457,22 +467,6 @@ document.addEventListener('DOMContentLoaded', function() {
             </svg>
             Menyimpan...
         `;
-    });
-    
-    // Date validation - tidak boleh masa lalu
-    const dateInput = document.querySelector('input[type="date"]');
-    if (dateInput) {
-        const today = new Date().toISOString().split('T')[0];
-        dateInput.setAttribute('min', today);
-    }
-    
-    // Status change animation
-    const statusSelect = document.querySelector('.status-select');
-    statusSelect.addEventListener('change', function() {
-        this.style.transform = 'scale(1.05)';
-        setTimeout(() => {
-            this.style.transform = 'scale(1)';
-        }, 200);
     });
     
     // Initial validation

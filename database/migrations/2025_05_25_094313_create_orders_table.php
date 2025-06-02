@@ -13,8 +13,8 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('laundryProvider');
             $table->unsignedBigInteger('laundryService');
-            $table->dateTime('pickup_date');
-            $table->enum('status', ['process', 'done']);
+            $table->dateTime('pickup_date')->nullable();
+            $table->enum('status', ['process', 'done'])->nullable();
             $table->integer('quantity');
             $table->decimal('total_price', 10, 2);
             $table->timestamps();

@@ -4,69 +4,92 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\LaundryService;
+use App\Models\LaundryProvider;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
 
 class LaundryServiceController extends Controller
 {
-    // Menampilkan semua layanan laundry
+    // Menampilkan semua layanan laundry (halaman Web)
     public function index()
     {
-        $services = LaundryService::with('provider')->get();
-         return view('laundry.services.index', compact('services'));
+        // Ambil semua record dengan relasi laundryProvider
+        $services = LaundryService::with('laundryProvider')->get();
+        return view('laundry.services.index', compact('services'));
     }
 
-    // Menyimpan layanan laundry baru
+    // Menampilkan form tambah layanan (halaman Web)
+    public function create()
+    {
+        // Tidak perlu laundryProviders karena tidak ada dropdown
+        return view('laundry.services.create');
+    }
+
+    // Menyimpan layanan laundry baru (dari form Web)
     public function store(Request $request)
     {
         $request->validate([
-            'laundryProviders' => 'required|exists:laundry_providers,laundryProvider',
-            'service_name' => 'required',
-            'price_per_kg' => 'required|numeric|min:0'
+            'service_name' => 'required|string|max:255',
+            'price_per_kg' => 'required|numeric|min:0',
         ]);
 
-        $service = LaundryService::create($request->all());
+        // Ambil ID provider pertama yang tersedia
+        $defaultProvider = LaundryProvider::first();
+        
+        if (!$defaultProvider) {
+            return redirect()->back()->with('error', 'Tidak ada penyedia laundry tersedia.');
+        }
 
-        return response()->json([
-            'message' => 'Laundry service created successfully',
-            'data' => $service
-        ], 201);
+        LaundryService::create([
+            'laundryProviders' => $defaultProvider->laundryProvider,
+            'service_name' => $request->service_name,
+            'price_per_kg' => $request->price_per_kg,
+        ]);
+
+        return redirect()
+            ->route('services.index')
+            ->with('success', 'Layanan berhasil ditambahkan.');
     }
 
-    // Mengupdate layanan laundry
+    // Menampilkan form edit layanan (halaman Web)
+    public function edit($id)
+    {
+        $service = LaundryService::findOrFail($id);
+        // Tidak perlu laundryProviders karena tidak ada dropdown
+        return view('laundry.services.edit', compact('service'));
+    }
+
+    // Update layanan laundry (dari form Web)
     public function update(Request $request, $id)
     {
-        $service = LaundryService::find($id);
-        if (!$service) {
-            return response()->json(['message' => 'Laundry service not found'], 404);
-        }
+        $service = LaundryService::findOrFail($id);
 
+        // Validasi tanpa laundryProviders
         $request->validate([
-            'laundryProviders' => 'sometimes|exists:laundry_providers,laundryProvider',
-            'service_name' => 'sometimes|required',
-            'price_per_kg' => 'sometimes|required|numeric|min:0'
+            'service_name' => 'required|string|max:255',
+            'price_per_kg' => 'required|numeric|min:0',
         ]);
 
-        $service->update($request->all());
-
-        return response()->json([
-            'message' => 'Laundry service updated successfully',
-            'data' => $service
+        // Update data tanpa mengubah laundryProviders
+        $service->update([
+            'service_name' => $request->service_name,
+            'price_per_kg' => $request->price_per_kg,
         ]);
+
+        // Redirect dengan flash message
+        return redirect()
+            ->route('services.index')
+            ->with('success', 'Layanan berhasil diperbarui.');
     }
 
-    // Menghapus layanan laundry
+    // Menghapus layanan laundry (dari tombol Delete di Web)
     public function destroy($id)
     {
-        $service = LaundryService::find($id);
-        if (!$service) {
-            return response()->json(['message' => 'Laundry service not found'], 404);
-        }
-
+        $service = LaundryService::findOrFail($id);
         $service->delete();
 
-        return response()->json([
-            'message' => 'Laundry service deleted successfully'
-        ]);
+        return redirect()
+            ->route('services.index')
+            ->with('success', 'Layanan berhasil dihapus.');
     }
 }

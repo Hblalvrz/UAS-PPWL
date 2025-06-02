@@ -16,7 +16,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanc
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('laundry')->middleware(['role:laundry_providers'])->group(function () {
-        Route::apiResource('/service', LaundryServiceController::class)->except(['index', 'show']);
+        Route::apiResource('services', LaundryServiceController::class)
+         ->only(['index','store','update','destroy','show']);
         Route::apiResource('/provider', LaundryProviderController::class)->except(['index', 'show']);
     });
 
@@ -26,6 +27,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::apiResource('/review', ReviewController::class)->except(['index', 'show']);
     });
+
+    
 
 
     Route::prefix('provider')->middleware(['role_or_permission:laundry_providers|edit-orders'])->group(function () {

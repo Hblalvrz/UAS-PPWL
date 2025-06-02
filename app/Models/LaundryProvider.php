@@ -21,4 +21,9 @@ class LaundryProvider extends Model
     {
         return $this->hasMany(Order::class, 'laundryProvider', 'laundryProvider');
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'laundryProviders', 'laundryProvider');
+    }
 }

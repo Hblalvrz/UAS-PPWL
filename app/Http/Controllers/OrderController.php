@@ -12,29 +12,112 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $orders = Order::with(['user', 'provider', 'service'])->get();
-        return view('orders.index', compact('orders'));
+        $query = Order::with(['user', 'provider', 'service']);
+
+        if ($request->filled('search')) {
+            $searchTerm = $request->search;
+            $query->where(function ($q) use ($searchTerm) {
+
+                $userColumns = \Schema::getColumnListing('users');
+                $searchableUserColumns = array_intersect($userColumns, [
+                    'name',
+                    'username',
+                    'full_name',
+                    'first_name',
+                    'last_name',
+                    'email'
+                ]);
+
+                if (!empty($searchableUserColumns)) {
+                    $q->whereHas('user', function ($userQuery) use ($searchTerm, $searchableUserColumns) {
+                        $userQuery->where(function ($subQuery) use ($searchTerm, $searchableUserColumns) {
+                            foreach ($searchableUserColumns as $column) {
+                                $subQuery->orWhere($column, 'like', '%' . $searchTerm . '%');
+                            }
+                        });
+                    });
+                }
+
+                $serviceColumns = \Schema::getColumnListing('laundry_services');
+                $searchableServiceColumns = array_intersect($serviceColumns, [
+                    'name',
+                    'service_name',
+                    'title',
+                    'description',
+                    'type'
+                ]);
+
+                if (!empty($searchableServiceColumns)) {
+                    $q->orWhereHas('service', function ($serviceQuery) use ($searchTerm, $searchableServiceColumns) {
+                        $serviceQuery->where(function ($subQuery) use ($searchTerm, $searchableServiceColumns) {
+                            foreach ($searchableServiceColumns as $column) {
+                                $subQuery->orWhere($column, 'like', '%' . $searchTerm . '%');
+                            }
+                        });
+                    });
+                }
+            });
+          }
+
+        if ($request->filled('status') && $request->status !== 'semua') {
+            $query->where('status', $request->status);
+        }
+
+        // Urutkan berdasarkan created_at (tanggal order) terbaru
+        $orders = $query->latest('created_at')->get();
+
+        return view('laundry.orders.index', compact('orders'));
     }
 
-    public function create()
+    public function create($providerId)
     {
-        $users = User::all();
-        $providers = LaundryProvider::all();
-        $services = LaundryService::all();
-        return view('orders.create', compact('users', 'providers', 'services'));
+        $provider = LaundryProvider::with('services')->findOrFail($providerId);
+        $services = LaundryService::where('laundryProviders', $providerId)->get();
+        return view('customer.cari.order', compact('provider', 'services'));
     }
+
+    public function storecustomer(Request $request)
+    {
+        $request->validate([
+            'laundryProvider' => 'required|exists:laundry_providers,laundryProvider',
+            'laundryService' => 'required|exists:laundry_services,laundryService',
+            'quantity' => 'required|integer|min:1',
+        ]);
+
+        // Hitung total_price (opsional, bisa dihitung di Blade atau di sini)
+        $service = LaundryService::find($request->laundryService);
+        $total_price = $service->price_per_kg * $request->quantity;
+
+        // Simpan ke database
+        Order::create([
+            'user_id' => auth()->id(),
+            'laundryProvider' => $request->laundryProvider,
+            'laundryService' => $request->laundryService,
+            'quantity' => $request->quantity,
+            'total_price' => $total_price,
+            'pickup_date' => null,
+
+        ]);
+
+        return redirect()->route('customer.riwayat.riwayat')->with('success', 'Order berhasil dibuat!');
+    }
+
 
     public function store(Request $request)
     {
         $request->validate([
-            'user_id' => 'required|exists:users,user_id',
-            'laundryProvider' => 'required|exists:laundry_providers,laundryProvider',
-            'laundryService' => 'required|exists:laundry_services,laundryService',
-            'pickup_date' => 'required|date',
-            'status' => 'required|in:process,done',
-            'quantity' => 'required|integer|min:1',
-            'total_price' => 'required|numeric|min:0'
+
+            'user_id'           => 'required|exists:users,user_id',
+            'laundryProvider'   => 'required|exists:laundry_providers,laundryProvider',
+            'laundryService'    => 'required|exists:laundry_services,laundryService',
+            'pickup_date'       => 'date',
+            'status'            => 'in:process,done',
+            'quantity'          => 'required|integer|min:1',
+            'total_price'       => 'required|numeric|min:0'
         ]);
+
+        $service = LaundryService::find($request->laundryService);
+ 
         Order::create($request->all());
         return redirect()->route('orders.index')->with('success', 'Order berhasil ditambahkan!');
     }

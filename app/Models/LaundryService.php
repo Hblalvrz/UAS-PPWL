@@ -9,16 +9,23 @@ class LaundryService extends Model
 {
     use HasFactory;
 
+    protected $table = 'laundry_services';
     protected $primaryKey = 'laundryService';
-    protected $fillable = ['laundryProviders', 'service_name', 'price_per_kg'];
+    public $incrementing = true;
+    protected $keyType = 'int';
 
-    public function provider()
+    protected $fillable = [
+        'laundryProviders',
+        'service_name',
+        'price_per_kg',
+    ];
+
+    protected $casts = [
+        'price_per_kg' => 'decimal:2',
+    ];
+
+    public function laundryProvider()
     {
         return $this->belongsTo(LaundryProvider::class, 'laundryProviders', 'laundryProvider');
-    }
-
-    public function orders()
-    {
-        return $this->hasMany(Order::class, 'laundryService', 'laundryService');
     }
 }

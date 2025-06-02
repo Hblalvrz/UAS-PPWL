@@ -1,58 +1,199 @@
 @extends('customer.layouts.app2')
 
 @section('content2')
-    <main class="max-w-4xl mx-auto px-6">
-        <section class="text-center mt-8 mb-10">
-            <h1 class="text-lg font-semibold text-slate-900">
-                Cari laundry terdekat
-            </h1>
-            <p class="text-sm text-slate-700 mt-2">
-                Temukan laundry dengan pelayanan terbaik dengan hasil dan harga yang memuaskan
-            </p>
+    <main class="max-w-6xl mx-auto px-4 pb-16">
+        <!-- Hero Section -->
+        <section
+            class="text-center mt-8 mb-12 py-12 rounded-2xl bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 shadow-xl border border-blue-100 relative overflow-hidden">
+            <!-- Background Pattern -->
+            <div class="absolute inset-0 opacity-5">
+                <div class="absolute top-4 left-4 w-8 h-8 bg-blue-500 rounded-full"></div>
+                <div class="absolute top-12 right-8 w-6 h-6 bg-indigo-500 rounded-full"></div>
+                <div class="absolute bottom-8 left-12 w-4 h-4 bg-purple-500 rounded-full"></div>
+                <div class="absolute bottom-4 right-4 w-10 h-10 bg-blue-400 rounded-full"></div>
+            </div>
+
+            <div class="relative z-10">
+                <div class="flex justify-center mb-6">
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-blue-500 rounded-full blur-xl opacity-20 scale-110"></div>
+                        <div class="relative bg-white rounded-full p-4 shadow-lg">
+                            <i class="fas fa-search-location text-4xl text-blue-600"></i>
+                        </div>
+                    </div>
+                </div>
+                <h1 class="text-4xl md:text-5xl font-black text-slate-900 tracking-tight mb-4">
+                    Cari Laundry
+                    <span class="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                        Terdekat
+                    </span>
+                </h1>
+                <p class="mt-4 text-base md:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
+                    Temukan laundry dengan pelayanan terbaik, hasil maksimal, dan harga yang memuaskan.
+                    <span class="font-semibold text-blue-600">Kualitas terjamin, kepercayaan terdepan.</span>
+                </p>
+
+                <!-- Stats -->
+                <div class="mt-8 flex justify-center gap-8 text-sm">
+                    <div class="flex items-center gap-2 text-slate-600">
+                        <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                        <span class="font-medium">{{ count($providers) }} Provider Aktif</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-slate-600">
+                        <div class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                        <span class="font-medium">Layanan 24/7</span>
+                    </div>
+                </div>
+            </div>
         </section>
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <article class="border border-slate-300 rounded-md p-4 flex justify-between items-center">
-                <div class="text-sm text-slate-700">
-                    <h2 class="font-semibold text-slate-900 mb-1">
-                        Fuad Laundry
-                    </h2>
-                    <p class="flex items-center gap-1 mb-1">
-                        <i class="fas fa-map-marker-alt text-slate-500 text-xs">
-                        </i>
-                        Sungai Ngawi No. 69
-                    </p>
-                    <p class="flex items-center gap-1">
-                        <i class="fas fa-phone-alt text-slate-500 text-xs">
-                        </i>
-                        +6269694646
-                    </p>
+
+
+
+        <!-- Provider List -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            @foreach ($providers as $index => $provider)
+                <article
+                    class="group border border-slate-200 rounded-2xl p-6 bg-white shadow-sm hover:shadow-2xl hover:border-blue-300 transition-all duration-500 ease-out transform hover:-translate-y-1 relative overflow-hidden">
+
+                    <!-- Background Gradient -->
+                    <div
+                        class="absolute inset-0 bg-gradient-to-br from-blue-50/0 to-indigo-50/0 group-hover:from-blue-50/30 group-hover:to-indigo-50/30 transition-all duration-500 rounded-2xl">
+                    </div>
+
+
+
+                    <div class="relative z-10 flex flex-col h-full">
+                        <!-- Header -->
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="relative">
+                                    <div
+                                        class="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
+                                        <i class="fas fa-store-alt text-white text-lg"></i>
+                                    </div>
+                                    <div
+                                        class="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white animate-pulse">
+                                    </div>
+                                </div>
+                                <div>
+                                    <h2
+                                        class="font-bold text-xl text-slate-900 group-hover:text-blue-700 transition-colors">
+                                        {{ $provider->laundry_name }}
+                                    </h2>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-xs text-slate-500">Mulai dari</div>
+                                <div class="font-bold text-lg text-green-600">
+                                    @if ($provider->services->count() > 0)
+                                        Rp {{ number_format($provider->services->min('price_per_kg'), 0, ',', '.') }}/kg
+                                    @else
+                                        Rp 0/kg
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Info Section -->
+                        <div class="flex-1 space-y-3 mb-6">
+                            <div class="flex items-start gap-3 group/item">
+                            </div>
+                            <div class="flex items-center gap-3 group/item">
+                                <div
+                                    class="flex-shrink-0 w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center group-hover/item:bg-green-100 transition-colors">
+                                    <i
+                                        class="fas fa-map-marker-alt text-slate-500 group-hover/item:text-green-600 text-sm"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-sm text-slate-700 font-medium">{{ $provider->address }}</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 group/item">
+                                <div
+                                    class="flex-shrink-0 w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center group-hover/item:bg-green-100 transition-colors">
+                                    <i class="fas fa-phone-alt text-slate-500 group-hover/item:text-green-600 text-sm"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-sm text-slate-700 font-medium">{{ $provider->phone }}</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-3 group/item">
+                                <div
+                                    class="flex-shrink-0 w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center group-hover/item:bg-purple-100 transition-colors">
+                                    <i class="fas fa-clock text-slate-500 group-hover/item:text-purple-600 text-sm"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-sm text-slate-700 font-medium">Layanan Cepat</p>
+                                    <span class="text-xs text-slate-500">Siap melayani setiap hari</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action Button -->
+                        <div class="flex">
+                            <a class="w-full bg-gradient-to-r from-slate-900 to-slate-800 hover:from-slate-800 hover:to-slate-700 text-white font-semibold text-sm py-3 px-6 rounded-xl transition-all duration-300 ease-out shadow-lg hover:shadow-xl flex items-center justify-center gap-2 transform hover:scale-105"
+                                href="{{ route('customer.order', $provider->laundryProvider) }}">
+                                <i class="fas fa-shopping-basket text-white text-sm"></i>
+                                <span>Pesan Sekarang</span>
+                                <i
+                                    class="fas fa-arrow-right text-white text-xs ml-1 group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+            @endforeach
+        </section>
+
+        <!-- Empty State (if no providers) -->
+        @if (count($providers) === 0)
+            <section class="text-center py-16">
+                <div class="flex justify-center mb-6">
+                    <div class="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-search text-3xl text-slate-400"></i>
+                    </div>
                 </div>
-                <button class="bg-slate-800 text-white text-xs font-semibold px-4 py-2 rounded-md hover:bg-slate-900"
-                    type="button">
-                    Pesan
-                </button>
-            </article>
-            <article class="border border-slate-300 rounded-md p-4 flex justify-between items-center">
-                <div class="text-sm text-slate-700">
-                    <h2 class="font-semibold text-slate-900 mb-1">
-                        Fuad Laundry
-                    </h2>
-                    <p class="flex items-center gap-1 mb-1">
-                        <i class="fas fa-map-marker-alt text-slate-500 text-xs">
-                        </i>
-                        Sungai Ngawi No. 69
-                    </p>
-                    <p class="flex items-center gap-1">
-                        <i class="fas fa-phone-alt text-slate-500 text-xs">
-                        </i>
-                        +6269694646
-                    </p>
-                </div>
-                <a class="bg-[#0F172A] text-white text-xs font-semibold py-2 px-6 rounded" type="button"
-                    href="{{ route('customer.order') }}">
-                    Pesan
+                <h3 class="text-xl font-semibold text-slate-700 mb-2">Belum Ada Provider</h3>
+                <p class="text-slate-500 max-w-md mx-auto">
+                    Saat ini belum ada provider laundry yang tersedia di area Anda. Silakan coba lagi nanti.
+                </p>
+            </section>
+        @endif
+
+        <!-- Call to Action -->
+        <section
+            class="mt-16 text-center bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-8 text-white shadow-2xl">
+            <div class="max-w-2xl mx-auto">
+                <h3 class="text-2xl font-bold mb-4">Punya Usaha Laundry?</h3>
+                <p class="text-blue-100 mb-6">Bergabunglah dengan platform kami dan jangkau lebih banyak pelanggan</p>
+                <a href="{{ route('register') }}"
+                    class="bg-white text-blue-600 font-semibold px-8 py-3 rounded-xl hover:bg-blue-50 transition-colors shadow-lg inline-block">
+                    <i class="fas fa-plus mr-2"></i>Daftar Sebagai Provider
                 </a>
-            </article>
+            </div>
         </section>
     </main>
+
+    <!-- Custom Styles -->
+    <style>
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .group:hover .animate-float {
+            animation-duration: 1.5s;
+        }
+    </style>
 @endsection

@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+
 return new class extends Migration
 {
     public function up()
@@ -12,7 +13,7 @@ return new class extends Migration
             $table->bigIncrements('review_id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('laundryProviders');
-            $table->enum('status', ['pending', 'reject', 'accepted']);
+            $table->integer(column: 'value')->default(value: 5)->max(5);
             $table->text('contents');
             $table->timestamps();
 
