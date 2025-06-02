@@ -41,8 +41,8 @@
                     </div>
                     <div class="info-item">
                         <label>Status:</label>
-                        <span class="status-badge status-{{ $order->status }}">
-                            {{ $order->status == 'process' ? 'Proses' : 'Selesai' }}
+                        <span class="status-badge status-{{ $order->status ?? 'process' }}">
+                            {{ ($order->status ?? 'process') == 'process' ? 'Proses' : 'Selesai' }}
                         </span>
                     </div>
                 </div>

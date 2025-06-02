@@ -64,9 +64,10 @@
                                 {{ $order->service->name ?? $order->service->service_name ?? '-' }}
                             </td>
                             <td class="table-cell status-cell">
-                                <span class="status-badge status-{{ $order->status }}">
-                                    {{ $order->status == 'process' ? 'Proses' : 'Selesai' }}
+                                <span class="status-badge status-{{ $order->status ?? 'process' }}">
+                                    {{ ($order->status ?? 'process') == 'process' ? 'Proses' : 'Selesai' }}
                                 </span>
+                            </td>
                             </td>
                             <td class="table-cell actions-cell">
                                 <div class="actions-container">
