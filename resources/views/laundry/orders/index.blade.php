@@ -118,7 +118,7 @@
 
 <style>
 html, body {
-    overflow: auto;
+    overflow: hidden;
     height: 100vh;
 }
 
