@@ -57,13 +57,19 @@ class OrderController extends Controller
                     });
                 }
             });
-          }
-
-        if ($request->filled('status') && $request->status !== 'semua') {
-            $query->where('status', $request->status);
         }
 
-        // Urutkan berdasarkan created_at (tanggal order) terbaru
+        if ($request->filled('status') && $request->status !== 'semua') {
+            if ($request->status === 'process') {
+                $query->where(function($q) {
+                    $q->where('status', 'process')
+                    ->orWhereNull('status');
+                });
+            } else {
+                $query->where('status', $request->status);
+            }
+        }
+
         $orders = $query->latest('created_at')->get();
 
         return view('laundry.orders.index', compact('orders'));
@@ -96,6 +102,7 @@ class OrderController extends Controller
             'quantity' => $request->quantity,
             'total_price' => $total_price,
             'pickup_date' => null,
+            'status' => 'process',
 
         ]);
 

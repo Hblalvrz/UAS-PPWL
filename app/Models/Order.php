@@ -21,6 +21,10 @@ class Order extends Model
         'created_at'
     ];
 
+    protected $attributes = [
+        'status' => 'process', 
+    ];
+
     protected $casts = [
         'pickup_date' => 'datetime',
     ];

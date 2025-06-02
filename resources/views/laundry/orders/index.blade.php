@@ -27,7 +27,7 @@
                         <span class="filter-label">Tampilkan</span>
                         <select class="filter-select" name="status" id="filterSelect">
                             <option value="semua" {{ request('status') == 'semua' ? 'selected' : '' }}>Semua</option>
-                            <option value="process" {{ request('status') == 'process' ? 'selected' : '' }}>Process</option>
+                            <option value="process" {{ request('status') == 'process' ? 'selected' : '' }}>Proses</option>
                             <option value="done" {{ request('status') == 'done' ? 'selected' : '' }}>Selesai</option>
                         </select>
                     </div>
@@ -35,7 +35,6 @@
             </div>
         </form>
 
-        <!-- Table Container -->
         <div class="table-container">
             <table class="orders-table">
                 <thead class="table-header">

@@ -1,3 +1,5 @@
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+
 <nav class="fixed top-0 z-50 w-full border-b bg-white border-gray-200 ">
     <div class="px-3 py-3 lg:px-5 lg:pl-3">
         <div class="flex items-center justify-between">
@@ -20,39 +22,18 @@
                 </a>
             </div>
             <div class="flex items-center">
-
-                <div class="my-4">
-                    <p class="text-sm font-bold text-[#2D4559]" role="none">
-                        {{ Auth::user()->name }}
-                    </p>
-                </div>
                 <div class="flex items-center ms-3">
-                    <div>
-                        <button type="button"
-                            class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300"
-                            aria-expanded="false" data-dropdown-toggle="dropdown-user">
-                            <span class="sr-only">Open user menu</span>
-                            <img class="w-8 h-8 rounded-full"
-                                src="https://ui-avatars.com/api/?name=Clean+Waves&size=128&background=2D4559&color=fff&rounded=true&bold=true"
-                                alt="user photo">
-                        </button>
-                    </div>
-                    <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-sm shadow-sm"
-                        id="dropdown-user">
-
-
-                        <ul class="py-1" role="none">
-                            <li>
-                                <form method="POST" action="{{ route('logout') }}">
-                                    @csrf
-                                    <button type="submit"
-                                        class="block px-4 py-2 text-sm text-gray-400 hover:bg-gray-200 hover:text-[#2D4559] w-full text-left"
-                                        role="menuitem">
-                                        Sign Out
-                                    </button>
-                                </form>
-                            </li>
-                        </ul>
+                    <div class="relative dropdown">
+                        <div class="flex items-center space-x-2">
+                            <form method="POST" action="{{ route('logout') }}" class="flex items-center">
+                                @csrf
+                                <button type="submit"
+                                    class="flex items-center space-x-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition-all px-4 py-1">
+                                    <i class="fas fa-sign-out-alt text-lg"></i>
+                                    <span class="text-sm">Logout</span>
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
