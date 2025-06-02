@@ -36,7 +36,7 @@
           Route::post('/order', [\App\Http\Controllers\OrderController::class, 'storecustomer'])->name('customer.order.store');
 
           //Riwayat
-          Route::get('/riwayat', [OrderController::class, 'history'])->name('customer.riwayat.riwayat');
+          Route::get('/riwayat', [OrderController::class, 'history'])->name('customer.history');
           Route::get('/orders/{id}/detail', [OrderController::class, 'showDetail'])->name('orders.showDetail');
 
           //Riwayat - Review

@@ -47,8 +47,8 @@
                     href="{{ route('customer.dashboard.index') }}">Beranda</a>
                 <a class="{{ request()->routeIs('provider.list') ? 'text-blue-700 border-b-2 border-blue-700' : 'text-[#9CA3AF] hover:text-blue-700' }} pb-1 transition-all"
                     href="{{ route('provider.list') }}">Cari Laundry</a>
-                <a class="{{ request()->routeIs('customer.riwayat.riwayat') ? 'text-blue-700 border-b-2 border-blue-700' : 'text-[#9CA3AF] hover:text-blue-700' }} pb-1 transition-all"
-                    href="{{ route('customer.riwayat.riwayat') }}">Riwayat Pemesanan</a>
+                <a class="{{ request()->routeIs('customer.history') ? 'text-blue-700 border-b-2 border-blue-700' : 'text-[#9CA3AF] hover:text-blue-700' }} pb-1 transition-all"
+                    href="{{ route('customer.history') }}">Riwayat Pemesanan</a>
             </nav>
             <div class="relative dropdown mt-2">
                 <div class="flex items-center space-x-2">
@@ -86,7 +86,7 @@
                                 class="text-sm text-blue-100 hover:text-blue-300 transition-all">Beranda</a></li>
                         <li><a href="{{ route('provider.list') }}"
                                 class="text-sm text-blue-100 hover:text-blue-300 transition-all">Cari Laundry</a></li>
-                        <li><a href="{{ route('customer.riwayat.riwayat') }}"
+                        <li><a href="{{ route('customer.history') }}"
                                 class="text-sm text-blue-100 hover:text-blue-300 transition-all">Riwayat Pemesanan</a>
                         </li>
                     </ul>
