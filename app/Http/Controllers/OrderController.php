@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $query = Order::with(['user', 'provider', 'service']);
 
@@ -57,14 +57,21 @@ class OrderController extends Controller
                     });
                 }
             });
-          }
-
-        if ($request->filled('status') && $request->status !== 'semua') {
-            $query->where('status', $request->status);
         }
 
-        // Urutkan berdasarkan created_at (tanggal order) terbaru
-        $orders = $query->latest('created_at')->get();
+        if ($request->filled('status') && $request->status !== 'semua') {
+            if ($request->status === 'process') {
+                $query->where(function($q) {
+                    $q->where('status', 'process')
+                    ->orWhereNull('status');
+                });
+            } else {
+                $query->where('status', $request->status);
+            }
+        }
+
+        $perPage = $request->get('per_page', 10);
+        $orders = $query->latest('created_at')->paginate($perPage);
 
         return view('laundry.orders.index', compact('orders'));
     }
@@ -96,10 +103,11 @@ class OrderController extends Controller
             'quantity' => $request->quantity,
             'total_price' => $total_price,
             'pickup_date' => null,
+            'status' => 'process',
 
         ]);
 
-        return redirect()->route('customer.riwayat.riwayat')->with('success', 'Order berhasil dibuat!');
+        return redirect()->route('customer.history')->with('success', 'Order berhasil dibuat!');
     }
 
 
@@ -128,7 +136,7 @@ class OrderController extends Controller
         $users = User::all();
         $providers = LaundryProvider::all();
         $services = LaundryService::all();
-        return view('orders.edit', compact('order', 'users', 'providers', 'services'));
+        return view('laundry.orders.edit', compact('order', 'users', 'providers', 'services'));
     }
 
     public function update(Request $request, $id)
@@ -145,6 +153,12 @@ class OrderController extends Controller
         ]);
         $order->update($request->all());
         return redirect()->route('orders.index')->with('success', 'Order berhasil diupdate!');
+    }
+
+    public function show($id)
+    {
+        $order = Order::with(['user', 'provider', 'service'])->findOrFail($id);
+        return view('laundry.orders.show', compact('order'));
     }
 
     public function destroy($id)
