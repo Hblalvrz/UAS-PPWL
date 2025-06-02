@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $query = Order::with(['user', 'provider', 'service']);
 
@@ -128,7 +128,7 @@ class OrderController extends Controller
         $users = User::all();
         $providers = LaundryProvider::all();
         $services = LaundryService::all();
-        return view('orders.edit', compact('order', 'users', 'providers', 'services'));
+        return view('laundry.orders.edit', compact('order', 'users', 'providers', 'services'));
     }
 
     public function update(Request $request, $id)
@@ -145,6 +145,12 @@ class OrderController extends Controller
         ]);
         $order->update($request->all());
         return redirect()->route('orders.index')->with('success', 'Order berhasil diupdate!');
+    }
+
+    public function show($id)
+    {
+        $order = Order::with(['user', 'provider', 'service'])->findOrFail($id);
+        return view('laundry.orders.show', compact('order'));
     }
 
     public function destroy($id)
