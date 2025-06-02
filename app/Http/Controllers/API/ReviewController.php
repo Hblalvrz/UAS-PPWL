@@ -26,7 +26,7 @@ class ReviewController extends Controller
         ]);
 
         $review = Review::create($request->all());
-
+      
         return redirect()->route('customer.riwayat.riwayat')->with('success', 'Ulasan berhasil dibuat!');
     }
 
@@ -50,7 +50,7 @@ class ReviewController extends Controller
 
         return response()->json([
             'message' => 'Review updated successfully',
-            'data'    => $review
+            'data' => $review
         ]);
     }
 
