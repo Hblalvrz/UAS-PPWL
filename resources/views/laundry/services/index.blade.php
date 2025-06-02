@@ -230,9 +230,9 @@ html, body {
 }
 
 .table-container {
-    border-radius: 12px;
-    overflow: hidden;
-    border: 0.5px solid #e2e8f0;
+    max-height: 400px;
+    overflow-y: auto;
+    width: 100%;
 }
 
 .services-table {

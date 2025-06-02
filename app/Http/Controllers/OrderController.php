@@ -70,7 +70,8 @@ class OrderController extends Controller
             }
         }
 
-        $orders = $query->latest('created_at')->get();
+        $perPage = $request->get('per_page', 10);
+        $orders = $query->latest('created_at')->paginate($perPage);
 
         return view('laundry.orders.index', compact('orders'));
     }
@@ -106,7 +107,7 @@ class OrderController extends Controller
 
         ]);
 
-        return redirect()->route('customer.riwayat.riwayat')->with('success', 'Order berhasil dibuat!');
+        return redirect()->route('customer.history')->with('success', 'Order berhasil dibuat!');
     }
 
 
