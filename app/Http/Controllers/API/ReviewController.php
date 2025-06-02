@@ -8,14 +8,14 @@ use Illuminate\Http\Request;
 
 class ReviewController extends Controller
 {
-    // Menampilkan semua review
+    // Tampilkan semua review
     public function index()
     {
         $reviews = Review::with(['user', 'provider'])->get();
         return view('customer.riwayat.ulasan', compact('reviews'));
     }
 
-    // Menyimpan review baru
+    // Simpan review baru
     public function store(Request $request)
     {
         $request->validate([
@@ -30,7 +30,7 @@ class ReviewController extends Controller
         return redirect()->route('customer.riwayat.riwayat')->with('success', 'Ulasan berhasil dibuat!');
     }
 
-    // Mengupdate review
+    // Update review
     public function update(Request $request, $id)
     {
         $review = Review::find($id);
@@ -54,7 +54,7 @@ class ReviewController extends Controller
         ]);
     }
 
-    // Menghapus review
+    // Hapus review
     public function destroy($id)
     {
         $review = Review::find($id);

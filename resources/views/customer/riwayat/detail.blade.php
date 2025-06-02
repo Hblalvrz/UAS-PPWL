@@ -2,7 +2,6 @@
 
 @section('content2')
 <div class="container mx-auto px-4 py-6">
-    <!-- Breadcrumb -->
     <nav class="flex mb-6" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-1 md:space-x-3">
             <li class="inline-flex items-center">
@@ -286,7 +285,6 @@
     </div>
 </div>
 
-<!-- Modal untuk Review (sama seperti di riwayat.blade.php) -->
 <div id="reviewModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50">
     <div class="flex items-center justify-center min-h-screen px-4">
         <div class="bg-white rounded-lg max-w-md w-full p-6">
@@ -365,14 +363,12 @@
         }
     });
 
-    // Close modal when clicking outside
     document.getElementById('reviewModal').addEventListener('click', function(e) {
         if (e.target === this) {
             closeReviewModal();
         }
     });
 
-    // Print styles
     window.addEventListener('beforeprint', function() {
         document.body.classList.add('printing');
     });

@@ -113,7 +113,6 @@
                         @endforeach
                     </div>
 
-                    <!-- Pagination jika diperlukan -->
                     <div class="mt-6 flex justify-center">
                         {{-- {{ $orders->links() }} --}}
                     </div>
