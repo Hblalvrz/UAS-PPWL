@@ -1,4 +1,4 @@
-name: 🚀 Deploy ke InfinityFree via FTP
+name: 🚀 Deploy via FTP
 
 on:
   push:
@@ -13,22 +13,19 @@ jobs:
       - name: 📥 Checkout Repository
         uses: actions/checkout@v3
 
-      - name: 🧰 Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
+      # 💡 Setup tambahan seperti Node.js, PHP, Composer, atau lainnya
 
-      - name: 📦 Install Dependencies
-        run: npm install
+      # - name: 📦 Install Dependencies
+      #   run: npm install
 
-      - name: 🏗️ Build Frontend (Inertia)
-        run: npm run build
+      # - name: 🏗️ Build Frontend
+      #   run: npm run build
 
-      - name: 🚀 Deploy ke InfinityFree (root /htdocs)
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-        with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./public/build/
-          server-dir: /htdocs/
+      # - name: 🚀 Deploy
+      #   uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      #   with:
+      #     server: ${{ secrets.FTP_HOST }}
+      #     username: ${{ secrets.FTP_USERNAME }}
+      #     password: ${{ secrets.FTP_PASSWORD }}
+      #     local-dir: ./public/build/
+      #     server-dir: /htdocs/
